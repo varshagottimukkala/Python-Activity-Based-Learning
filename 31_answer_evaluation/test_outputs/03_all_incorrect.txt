@@ -1,0 +1,8 @@
+STRING-BASED EXAMINATION ANSWER EVALUATION
+Answer key (1-50 letters A-D): Number of student records (1-30): Format: ID|4 responses. Use - for unanswered.
+Student 1: 
+EXAMINATION RESULTS
+ID | Correct | Incorrect | Blank | Score | Percent | Result
+S1 | 0 | 4 | 0 | -4 | -25.00% | NEEDS PRACTICE
+Evaluated: 1 | Rejected: 0
+Top score: -4/16 (S1)

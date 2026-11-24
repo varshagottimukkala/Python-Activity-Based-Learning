@@ -1,0 +1,14 @@
+$ python3 -B program.py
+HOLLOW NUMERIC DIAMOND
+Number of levels (1-9): 4
+
+PATTERN
+   1
+  2 2
+ 3   3
+4     4
+ 3   3
+  2 2
+   1
+Height: 7 | Maximum width: 7
+Digits printed: 12

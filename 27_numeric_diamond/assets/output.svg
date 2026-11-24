@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="467" viewBox="0 0 1000 467" role="img">
+<title>Case 27: actual executed sample output</title>
+<rect x="0" y="0" width="1000" height="467" rx="0" fill="#132b23" stroke="none" stroke-width="2"/>
+<rect x="0" y="0" width="1000" height="60" rx="0" fill="#1d3b30" stroke="none" stroke-width="2"/>
+<text x="30" y="38" fill="#dbe8db" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" text-anchor="start">CASE 27  /  PYTHON TERMINAL</text>
+<text x="971" y="38" fill="#a8d0ab" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="700" text-anchor="end">EXECUTED SAMPLE</text>
+<text x="30" y="91" fill="#f2cf88" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">$ python3 -B program.py</text>
+<text x="30" y="116" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">HOLLOW NUMERIC DIAMOND</text>
+<text x="30" y="141" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Number of levels (1-9): 4</text>
+<text x="30" y="166" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start"></text>
+<text x="30" y="191" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">PATTERN</text>
+<text x="30" y="216" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">   1</text>
+<text x="30" y="241" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  2 2</text>
+<text x="30" y="266" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start"> 3   3</text>
+<text x="30" y="291" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">4     4</text>
+<text x="30" y="316" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start"> 3   3</text>
+<text x="30" y="341" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  2 2</text>
+<text x="30" y="366" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">   1</text>
+<text x="30" y="391" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Height: 7 | Maximum width: 7</text>
+<text x="30" y="416" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Digits printed: 12</text>
+<text x="30" y="450" fill="#9bb4a0" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="400" text-anchor="start">Source: output.txt  |  Input: sample_input.txt  |  Fictional classroom data</text>
+</svg>

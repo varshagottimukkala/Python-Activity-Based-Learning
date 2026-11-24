@@ -1,0 +1,13 @@
+TUPLE-BASED PRODUCT CATALOGUE AUDIT
+Number of catalogue records (1-30): ERROR: enter an integer from 1 to 30.
+Number of catalogue records (1-30): Format: Pddd|price_in_Rs|stock|reorder_level
+Prices must be positive, with at most two decimal places.
+Product 1: REJECTED row-1: expected four fields
+Product 2: REJECTED P001: invalid price format
+
+CATALOGUE AUDIT
+ID | Unit price (Rs) | Stock | Value (Rs) | Reorder level | Replenish
+Valid records: 0 | Rejected: 2
+Inventory value: Rs 0.00
+Replenishment needed: 0 units
+Items below reorder level: none

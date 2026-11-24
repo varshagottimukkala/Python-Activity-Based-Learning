@@ -1,0 +1,13 @@
+TUPLE-BASED PRODUCT CATALOGUE AUDIT
+Number of catalogue records (1-30): Format: Pddd|price_in_Rs|stock|reorder_level
+Prices must be positive, with at most two decimal places.
+Product 1: Product 2: Product 3: 
+CATALOGUE AUDIT
+ID | Unit price (Rs) | Stock | Value (Rs) | Reorder level | Replenish
+P001 | 5.00 | 3 | 15.00 | 3 | 0
+P002 | 2.00 | 0 | 0.00 | 0 | 0
+P003 | 1.00 | 4 | 4.00 | 3 | 0
+Valid records: 3 | Rejected: 0
+Inventory value: Rs 19.00
+Replenishment needed: 0 units
+Items below reorder level: none

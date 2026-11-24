@@ -1,0 +1,23 @@
+STUDENT MARKS MATRIX ANALYSIS
+Number of students (1-20): ERROR: enter an integer from 1 to 20.
+Number of students (1-20): Number of subjects (1-10): ERROR: enter an integer from 1 to 10.
+Number of subjects (1-10): Enter 2 unique subject codes separated by |: ERROR: use the correct number of unique ASCII alphanumeric subject codes.
+Enter 2 unique subject codes separated by |: ERROR: use the correct number of unique ASCII alphanumeric subject codes.
+Enter 2 unique subject codes separated by |: Format: ID|mark1|mark2|...; marks must be integers from 0 to 100.
+Student 1: ERROR: each mark must be a whole number from 0 to 100.
+Student 1: ERROR: provide one ID and exactly one mark per subject.
+Student 1: Student 2: ERROR: student IDs must be unique ASCII alphanumeric strings of 1-12 characters.
+Student 2: ERROR: each mark must be a whole number from 0 to 100.
+Student 2: 
+STUDENT STATISTICS
+ID | Total | Average | Failed subjects | Classification
+S1 | 100 | 50.00 | none | PASS
+S2 | 100 | 50.00 | none | PASS
+
+SUBJECT STATISTICS
+Subject | Total | Average | Lowest | Highest | Top students
+PY | 100 | 50.00 | 40 | 60 | S2
+MA | 100 | 50.00 | 40 | 60 | S1
+Top overall total: 100/200 (S1, S2)
+Overall average: 50.00
+Subjects averaging below 50: none

@@ -1,0 +1,31 @@
+flowchart TD
+    start(["START"])
+    setup[/"Read and validate month count<br/>1 to 12"/]
+    read[/"Read label | units | on-time flag"/]
+    valid{"Valid fields and<br/>unique month label?"}
+    retry["Print error<br/>Retry this month"]
+    store["Append tuple to months<br/>Remember normalized label"]
+    more{"More months to read?"}
+    init["Initialize totals, previous bill,<br/>maximum and alert lists"]
+    next["Unpack next month tuple"]
+    bill["Apply slabs; add fixed charge<br/>Apply surcharge and rebate<br/>Round adjustments to paise"]
+    compare["Print bill; compare with previous<br/>Flag increase strictly above 25%<br/>Update total and highest-bill ties"]
+    remaining{"More months to bill?"}
+    summary[/"Print totals, highest-bill months,<br/>and unusual increases"/]
+    end(["STOP"])
+    start --> setup
+    setup --> read
+    read --> valid
+    valid -->|Yes| store
+    valid -->|No| retry
+    retry --> read
+    store --> more
+    more -->|Yes| read
+    more -->|No| init
+    init --> next
+    next --> bill
+    bill --> compare
+    compare --> remaining
+    remaining -->|Yes| next
+    remaining -->|No| summary
+    summary --> end

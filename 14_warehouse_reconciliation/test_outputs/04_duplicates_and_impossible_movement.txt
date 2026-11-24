@@ -1,0 +1,11 @@
+WAREHOUSE INVENTORY RECONCILIATION
+Number of product records (1-20): Format: code|opening|incoming|dispatched|observed_closing|target
+Product 1: Product 2: REJECTED P1: duplicate product code
+Product 3: REJECTED P2: dispatch exceeds available stock
+
+STOCK AUDIT
+Code | Expected | Observed | Difference | Status | Replenish
+P1 | 10 | 10 | +0 | MATCH | 0
+Audited: 1 | Rejected: 2
+Products with discrepancies: 0
+Total replenishment: 0 units

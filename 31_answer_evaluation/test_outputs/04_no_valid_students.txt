@@ -1,0 +1,11 @@
+STRING-BASED EXAMINATION ANSWER EVALUATION
+Answer key (1-50 letters A-D): Number of student records (1-30): Format: ID|2 responses. Use - for unanswered.
+Student 1: REJECTED S1: response length must match the answer key
+Student 2: REJECTED S2: responses must contain only A-D or -
+Student 3: REJECTED S1: duplicate student ID
+Student 4: REJECTED row-4: expected ID|responses
+
+EXAMINATION RESULTS
+ID | Correct | Incorrect | Blank | Score | Percent | Result
+Evaluated: 0 | Rejected: 4
+Top score: no valid student records

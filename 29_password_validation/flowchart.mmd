@@ -1,0 +1,24 @@
+flowchart TD
+    start(["START"])
+    setup[/"Read valid sample count<br/>Define character and substring policies"/]
+    read[/"Read username | password<br/>Start an empty failure list"/]
+    valid{"Exactly two fields?"}
+    reject["Add malformed-record failure"]
+    scan["Check username and length<br/>Scan character categories and runs<br/>Collect every failed condition"]
+    substrings["Check all prohibited substrings<br/>and username without regard to case"]
+    store["Store sample result and failure list<br/>Empty list = accepted<br/>Otherwise = rejected"]
+    more{"More samples?"}
+    summary[/"Print each status and every failure<br/>Print accepted / rejected totals"/]
+    end(["STOP"])
+    start --> setup
+    setup --> read
+    read --> valid
+    valid -->|Yes| scan
+    valid -->|No| reject
+    reject --> store
+    scan --> substrings
+    substrings --> store
+    store --> more
+    more -->|Yes| read
+    more -->|No| summary
+    summary --> end

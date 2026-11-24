@@ -1,0 +1,50 @@
+[
+  {
+    "id": "01_normal",
+    "kind": "Normal",
+    "purpose": "Compute row and column statistics, tied toppers, and a weak subject.",
+    "input": "3\n3\nPY|MATH|ENG\nS01|80|40|90\nS02|60|35|55\nS03|80|40|90\n",
+    "expected": "S01 and S03 tie at 210. S02 fails MATH. MATH average 38.33 is below 50; overall average 63.33.",
+    "contains": ["S01 | 210 | 70.00 | none | FIRST CLASS", "S02 | 150 | 50.00 | MATH | FAIL", "MATH | 115 | 38.33 | 35 | 40 | S01, S03", "Top overall total: 210/300 (S01, S03)", "Overall average: 63.33", "Subjects averaging below 50: MATH"]
+  },
+  {
+    "id": "02_one_zero_mark",
+    "kind": "Boundary",
+    "purpose": "Handle a 1x1 matrix and minimum allowed mark.",
+    "input": "1\n1\nPY\nS1|0\n",
+    "expected": "Student fails; subject average and all extrema are zero.",
+    "contains": ["S1 | 0 | 0.00 | PY | FAIL", "PY | 0 | 0.00 | 0 | 0 | S1", "Top overall total: 0/100 (S1)", "Subjects averaging below 50: PY"]
+  },
+  {
+    "id": "03_one_maximum_mark",
+    "kind": "Boundary",
+    "purpose": "Accept the maximum mark of 100.",
+    "input": "1\n1\nPY\nS1|100\n",
+    "expected": "Distinction, average 100, no weak subjects.",
+    "contains": ["S1 | 100 | 100.00 | none | DISTINCTION", "PY | 100 | 100.00 | 100 | 100 | S1", "Overall average: 100.00", "Subjects averaging below 50: none"]
+  },
+  {
+    "id": "04_classification_cutoffs",
+    "kind": "Boundary",
+    "purpose": "Check averages 75, 60, and 40 and require every subject to pass.",
+    "input": "5\n2\nPY|MA\nS1|75|75\nS2|60|60\nS3|40|40\nS4|100|39\nS5|50|50\n",
+    "expected": "Distinction, first class, pass, fail, pass. S4 fails despite a 69.50 average.",
+    "contains": ["S1 | 150 | 75.00 | none | DISTINCTION", "S2 | 120 | 60.00 | none | FIRST CLASS", "S3 | 80 | 40.00 | none | PASS", "S4 | 139 | 69.50 | MA | FAIL", "S5 | 100 | 50.00 | none | PASS", "Top overall total: 150/200 (S1)"]
+  },
+  {
+    "id": "05_input_retries",
+    "kind": "Validation",
+    "purpose": "Retry invalid dimensions, duplicate subjects, invalid marks, wrong row lengths, and duplicate students.",
+    "input": "0\n2\n0\n2\nPY\nPY|py\nPY|MA\nS1|101|20\nS1|40\nS1|40|60\ns1|50|50\nS2|-1|50\nS2|60|40\n",
+    "expected": "Only the two valid rows enter the matrix. Both average 50; subjects at exactly 50 are not flagged.",
+    "contains": ["ERROR: enter an integer from 1 to 20.", "ERROR: enter an integer from 1 to 10.", "ERROR: use the correct number of unique ASCII alphanumeric subject codes.", "ERROR: each mark must be a whole number from 0 to 100.", "ERROR: provide one ID and exactly one mark per subject.", "ERROR: student IDs must be unique ASCII alphanumeric strings of 1-12 characters.", "Top overall total: 100/200 (S1, S2)", "Overall average: 50.00", "Subjects averaging below 50: none"]
+  },
+  {
+    "id": "06_subject_and_total_ties",
+    "kind": "Boundary",
+    "purpose": "Keep all overall ties and distinguish them from subject-wise toppers.",
+    "input": "3\n2\nPY|MA\nA|0|100\nB|50|50\nC|100|0\n",
+    "expected": "All three tie at 100. C tops PY; A tops MA. Both subjects average exactly 50.",
+    "contains": ["PY | 150 | 50.00 | 0 | 100 | C", "MA | 150 | 50.00 | 0 | 100 | A", "Top overall total: 100/200 (A, B, C)", "Subjects averaging below 50: none"]
+  }
+]

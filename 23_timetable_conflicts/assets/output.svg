@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="617" viewBox="0 0 1000 617" role="img">
+<title>Case 23: actual executed sample output</title>
+<rect x="0" y="0" width="1000" height="617" rx="0" fill="#132b23" stroke="none" stroke-width="2"/>
+<rect x="0" y="0" width="1000" height="60" rx="0" fill="#1d3b30" stroke="none" stroke-width="2"/>
+<text x="30" y="38" fill="#dbe8db" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" text-anchor="start">CASE 23  /  PYTHON TERMINAL</text>
+<text x="971" y="38" fill="#a8d0ab" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="700" text-anchor="end">EXECUTED SAMPLE</text>
+<text x="30" y="91" fill="#f2cf88" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">$ python3 -B program.py</text>
+<text x="30" y="116" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">STUDENT TIMETABLE CONFLICT DETECTION</text>
+<text x="30" y="141" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Rooms: R101, R102, LAB2. Days: MON-FRI.</text>
+<text x="30" y="166" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Unavailable: LAB2 WED 10:00-12:00; R102 FRI 13:00-14:00.</text>
+<text x="30" y="191" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Format: course|day|HH:MM|HH:MM|room</text>
+<text x="30" y="216" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Number of session records (1-20): 5</text>
+<text x="30" y="241" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Session 1: CS101|MON|09:00|10:00|R101</text>
+<text x="30" y="266" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Session 2: MA101|MON|09:30|10:30|R101</text>
+<text x="30" y="291" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Session 3: PY101|WED|10:30|11:30|LAB2</text>
+<text x="30" y="316" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Session 4: EN101|MON|10:30|11:30|R102</text>
+<text x="30" y="341" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Session 5: PH101|TUE|09:00|10:00|R101</text>
+<text x="30" y="366" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start"></text>
+<text x="30" y="391" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">TIMETABLE AUDIT</text>
+<text x="30" y="416" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">UNAVAILABLE: PY101 in LAB2 on WED</text>
+<text x="30" y="441" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">CONFLICT: CS101 / MA101 (MON): student; room R101</text>
+<text x="30" y="466" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Parsed sessions: 5 | Rejected records: 0</text>
+<text x="30" y="491" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Student conflict pairs: 1</text>
+<text x="30" y="516" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Room conflict pairs: 1</text>
+<text x="30" y="541" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Unavailable-room bookings: 1</text>
+<text x="30" y="566" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Timetable: INVALID</text>
+<text x="30" y="600" fill="#9bb4a0" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="400" text-anchor="start">Source: output.txt  |  Input: sample_input.txt  |  Fictional classroom data</text>
+</svg>

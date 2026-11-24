@@ -1,0 +1,23 @@
+$ python3 -B program.py
+PROGRESSIVE ELECTRICITY BILLING
+Enter months in chronological order: label|units|on_time(Y/N)
+Number of months (1-12): 4
+Month 1: Jan|100|Y
+Month 2: Feb|200|N
+Month 3: Mar|350|N
+Month 4: Apr|400|Y
+
+BILL DETAILS (Rs)
+Month | Units | Energy | Fixed | Surcharge | Rebate | Total
+Jan | 100 | 150.00 | 50.00 | 0.00 | 7.50 | 192.50
+Feb | 200 | 400.00 | 50.00 | 0.00 | 0.00 | 450.00
+  Change from previous month: +133.77%
+  ALERT: bill increase exceeds 25%.
+Mar | 350 | 1000.00 | 50.00 | 100.00 | 0.00 | 1150.00
+  Change from previous month: +155.56%
+  ALERT: bill increase exceeds 25%.
+Apr | 400 | 1200.00 | 50.00 | 120.00 | 0.00 | 1370.00
+  Change from previous month: +19.13%
+Total billed: Rs 3162.50
+Highest bill: Rs 1370.00 (Apr)
+Unusual increases: Feb, Mar

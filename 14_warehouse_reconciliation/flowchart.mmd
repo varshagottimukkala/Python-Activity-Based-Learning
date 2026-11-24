@@ -1,0 +1,24 @@
+flowchart TD
+    start(["START"])
+    setup[/"Validate record count<br/>Initialize accepted and seen-code lists"/]
+    read[/"Read six product fields<br/>Reserve a new valid-shaped code"/]
+    valid{"New valid code, whole quantities,<br/>and dispatch &lt;= available?"}
+    reject["Print rejection reason<br/>Increment rejected count"]
+    store["Append accepted product tuple"]
+    more{"More product attempts?"}
+    audit["For each accepted tuple:<br/>expected = opening + incoming - dispatch<br/>difference = observed - expected"]
+    replenish["Classify shortage / surplus / match<br/>Replenish only when observed &lt; target<br/>Accumulate discrepancy and unit totals"]
+    summary[/"Print product audit and totals"/]
+    end(["STOP"])
+    start --> setup
+    setup --> read
+    read --> valid
+    valid -->|Yes| store
+    valid -->|No| reject
+    reject --> more
+    store --> more
+    more -->|Yes| read
+    more -->|No| audit
+    audit --> replenish
+    replenish --> summary
+    summary --> end

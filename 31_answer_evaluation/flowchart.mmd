@@ -1,0 +1,24 @@
+flowchart TD
+    start(["START"])
+    setup[/"Validate answer key and record count<br/>Initialize seen IDs and results"/]
+    read[/"Read ID | responses<br/>Normalize case and reserve valid new ID"/]
+    valid{"Valid new ID, exact length,<br/>and allowed answer symbols?"}
+    reject["Print rejection reason<br/>Increment rejected count"]
+    count["Compare every answer position<br/>Count correct, incorrect and blank"]
+    score["score = 4 * correct - incorrect<br/>Compute percentage<br/>Classify at 75% and 50%"]
+    store["Append the valid result tuple"]
+    more{"More student attempts?"}
+    summary[/"Print results and counts<br/>Find all highest-score ties<br/>Handle an empty result list"/]
+    end(["STOP"])
+    start --> setup
+    setup --> read
+    read --> valid
+    valid -->|Yes| count
+    valid -->|No| reject
+    reject --> more
+    count --> score
+    score --> store
+    store --> more
+    more -->|Yes| read
+    more -->|No| summary
+    summary --> end

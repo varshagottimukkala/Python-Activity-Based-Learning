@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="717" viewBox="0 0 1000 717" role="img">
+<title>Case 29: actual executed sample output</title>
+<rect x="0" y="0" width="1000" height="717" rx="0" fill="#132b23" stroke="none" stroke-width="2"/>
+<rect x="0" y="0" width="1000" height="60" rx="0" fill="#1d3b30" stroke="none" stroke-width="2"/>
+<text x="30" y="38" fill="#dbe8db" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" text-anchor="start">CASE 29  /  PYTHON TERMINAL</text>
+<text x="971" y="38" fill="#a8d0ab" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="700" text-anchor="end">EXECUTED SAMPLE</text>
+<text x="30" y="91" fill="#f2cf88" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">$ python3 -B program.py</text>
+<text x="30" y="116" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">PASSWORD POLICY VALIDATION ENGINE</text>
+<text x="30" y="141" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Enter fictional samples only: username|password</text>
+<text x="30" y="166" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Passwords are not echoed in the audit.</text>
+<text x="30" y="191" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Number of samples (1-20): 4</text>
+<text x="30" y="216" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sample 1: Mira|M8!riverOak</text>
+<text x="30" y="241" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sample 2: learner|password</text>
+<text x="30" y="266" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sample 3: mira|Mira1234!!A</text>
+<text x="30" y="291" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sample 4: demo|AAAbcde1!x</text>
+<text x="30" y="316" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start"></text>
+<text x="30" y="341" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">POLICY AUDIT</text>
+<text x="30" y="366" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sample 1 (Mira): ACCEPTED</text>
+<text x="30" y="391" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sample 2 (learner): REJECTED</text>
+<text x="30" y="416" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  - Password length must be 10-64 characters.</text>
+<text x="30" y="441" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  - Include an uppercase ASCII letter.</text>
+<text x="30" y="466" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  - Include an ASCII digit.</text>
+<text x="30" y="491" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  - Include a special character from !@#$%^&amp;*?_-</text>
+<text x="30" y="516" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  - Prohibited substring: password</text>
+<text x="30" y="541" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sample 3 (mira): REJECTED</text>
+<text x="30" y="566" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  - Prohibited substring: 1234</text>
+<text x="30" y="591" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  - Password must not contain the username (case-insensitive).</text>
+<text x="30" y="616" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Sample 4 (demo): REJECTED</text>
+<text x="30" y="641" fill="#f1b8a0" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">  - Three or more consecutive identical characters are prohibited.</text>
+<text x="30" y="666" fill="#b9dfb3" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Accepted: 1 | Rejected: 3</text>
+<text x="30" y="700" fill="#9bb4a0" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="400" text-anchor="start">Source: output.txt  |  Input: sample_input.txt  |  Fictional classroom data</text>
+</svg>

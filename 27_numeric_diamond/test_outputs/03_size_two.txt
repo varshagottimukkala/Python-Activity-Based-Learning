@@ -1,0 +1,8 @@
+HOLLOW NUMERIC DIAMOND
+Number of levels (1-9): 
+PATTERN
+ 1
+2 2
+ 1
+Height: 3 | Maximum width: 3
+Digits printed: 4

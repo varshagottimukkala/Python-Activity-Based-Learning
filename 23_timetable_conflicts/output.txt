@@ -1,0 +1,20 @@
+$ python3 -B program.py
+STUDENT TIMETABLE CONFLICT DETECTION
+Rooms: R101, R102, LAB2. Days: MON-FRI.
+Unavailable: LAB2 WED 10:00-12:00; R102 FRI 13:00-14:00.
+Format: course|day|HH:MM|HH:MM|room
+Number of session records (1-20): 5
+Session 1: CS101|MON|09:00|10:00|R101
+Session 2: MA101|MON|09:30|10:30|R101
+Session 3: PY101|WED|10:30|11:30|LAB2
+Session 4: EN101|MON|10:30|11:30|R102
+Session 5: PH101|TUE|09:00|10:00|R101
+
+TIMETABLE AUDIT
+UNAVAILABLE: PY101 in LAB2 on WED
+CONFLICT: CS101 / MA101 (MON): student; room R101
+Parsed sessions: 5 | Rejected records: 0
+Student conflict pairs: 1
+Room conflict pairs: 1
+Unavailable-room bookings: 1
+Timetable: INVALID

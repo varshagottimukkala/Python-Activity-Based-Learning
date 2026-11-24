@@ -1,0 +1,11 @@
+PROGRESSIVE ELECTRICITY BILLING
+Enter months in chronological order: label|units|on_time(Y/N)
+Number of months (1-12): Month 1: Month 2: 
+BILL DETAILS (Rs)
+Month | Units | Energy | Fixed | Surcharge | Rebate | Total
+A | 100 | 150.00 | 50.00 | 0.00 | 7.50 | 192.50
+B | 101 | 152.50 | 50.00 | 0.00 | 0.00 | 202.50
+  Change from previous month: +5.19%
+Total billed: Rs 395.00
+Highest bill: Rs 202.50 (B)
+Unusual increases: none

@@ -1,0 +1,24 @@
+flowchart TD
+    start(["START"])
+    setup[/"Read valid catalogue record count<br/>Initialize catalogue and seen IDs"/]
+    read[/"Read ID | price | stock | reorder<br/>Reserve a new valid-shaped ID"/]
+    valid{"New valid ID, positive price,<br/>and whole nonnegative quantities?"}
+    reject["Print first rejection reason<br/>Increment rejected count"]
+    store["Parse price into integer paise<br/>Append typed product tuple"]
+    more{"More catalogue attempts?"}
+    audit["Unpack each accepted tuple<br/>value = price_paise * stock"]
+    replenish["If stock &lt; reorder level:<br/>record the gap and item ID<br/>Accumulate value and unit totals"]
+    summary[/"Print product audit and totals<br/>Format paise as rupees"/]
+    end(["STOP"])
+    start --> setup
+    setup --> read
+    read --> valid
+    valid -->|Yes| store
+    valid -->|No| reject
+    reject --> more
+    store --> more
+    more -->|Yes| read
+    more -->|No| audit
+    audit --> replenish
+    replenish --> summary
+    summary --> end

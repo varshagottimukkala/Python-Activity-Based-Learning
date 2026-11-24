@@ -1,0 +1,50 @@
+[
+  {
+    "id": "01_normal",
+    "kind": "Normal",
+    "purpose": "Generate an aligned four-level hollow numeric diamond.",
+    "input": "4\n",
+    "expected": "Seven rows with edge values 1, 2, 3, 4, 3, 2, 1; 12 digits.",
+    "contains": ["\nPATTERN\n   1\n  2 2\n 3   3\n4     4\n 3   3\n  2 2\n   1\n", "Height: 7 | Maximum width: 7", "Digits printed: 12"]
+  },
+  {
+    "id": "02_minimum_size",
+    "kind": "Boundary",
+    "purpose": "Avoid counting the coincident left and right edges twice at size one.",
+    "input": "1\n",
+    "expected": "Exactly one digit, one row, one column.",
+    "contains": ["\nPATTERN\n1\nHeight: 1 | Maximum width: 1\nDigits printed: 1\n"]
+  },
+  {
+    "id": "03_size_two",
+    "kind": "Boundary",
+    "purpose": "Check the smallest diamond with a hollow middle.",
+    "input": "2\n",
+    "expected": "Rows are ' 1', '2 2', ' 1'; four digits.",
+    "contains": ["\nPATTERN\n 1\n2 2\n 1\n", "Height: 3 | Maximum width: 3", "Digits printed: 4"]
+  },
+  {
+    "id": "04_maximum_size",
+    "kind": "Boundary",
+    "purpose": "Keep alignment at the largest permitted one-digit level.",
+    "input": "9\n",
+    "expected": "17 rows, maximum width 17, 32 digits; middle row has two 9s separated by 15 spaces.",
+    "contains": ["\n        1\n", "\n9               9\n", "Height: 17 | Maximum width: 17", "Digits printed: 32"]
+  },
+  {
+    "id": "05_invalid_sizes",
+    "kind": "Validation",
+    "purpose": "Retry zero, excessive, negative, alphabetic, and non-ASCII numeric sizes.",
+    "input": "0\n10\n-2\nabc\n²\n3\n",
+    "expected": "Invalid sizes are retried, then a five-row diamond with eight digits is printed.",
+    "contains": ["ERROR: enter an integer from 1 to 9.", "\nPATTERN\n  1\n 2 2\n3   3\n 2 2\n  1\n", "Digits printed: 8"]
+  },
+  {
+    "id": "06_symmetry",
+    "kind": "Normal",
+    "purpose": "Check both halves of a five-level diamond.",
+    "input": "5\n",
+    "expected": "The upper and lower halves mirror each other; height 9 and 16 digits.",
+    "contains": ["\nPATTERN\n    1\n   2 2\n  3   3\n 4     4\n5       5\n 4     4\n  3   3\n   2 2\n    1\n", "Height: 9 | Maximum width: 9", "Digits printed: 16"]
+  }
+]

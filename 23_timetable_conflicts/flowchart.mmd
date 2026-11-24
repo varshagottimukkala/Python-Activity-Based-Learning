@@ -1,0 +1,29 @@
+flowchart TD
+    start(["START"])
+    setup[/"Define days, rooms and closures<br/>Read a valid session count"/]
+    read[/"Read course | day | start | end | room"/]
+    valid{"Valid fields, times and duration;<br/>not an identical session?"}
+    reject["Print reason<br/>Increment rejected records"]
+    store["Convert times to minutes<br/>Append the session tuple"]
+    more{"More session attempts?"}
+    closures["Compare sessions with closures<br/>Same room/day and strict overlap<br/>Report unavailable bookings"]
+    pairs["Compare each unique session pair<br/>Same-day overlap = student conflict<br/>Same room also = room conflict"]
+    verdict{"No rejected records, overlaps,<br/>or unavailable bookings?"}
+    validout[/"Print counts and VALID"/]
+    invalidout["Print counts and INVALID"]
+    end(["STOP"])
+    start --> setup
+    setup --> read
+    read --> valid
+    valid -->|Yes| store
+    valid -->|No| reject
+    reject --> more
+    store --> more
+    more -->|Yes| read
+    more -->|No| closures
+    closures --> pairs
+    pairs --> verdict
+    verdict -->|Yes| validout
+    verdict -->|No| invalidout
+    validout --> end
+    invalidout --> end

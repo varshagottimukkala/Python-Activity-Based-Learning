@@ -1,0 +1,12 @@
+ATM TRANSACTION SEQUENCE SIMULATION
+Use fictional transaction data. Amounts are whole rupees.
+Opening balance (at least Rs 500): Number of transaction attempts (1-50): Transaction format: ID|D/W|amount
+Transaction 1: Transaction 2: Transaction 3: 
+TRANSACTION AUDIT
+T1: ACCEPTED W Rs 500 | Balance Rs 500
+T2: REJECTED: withdrawal would breach the Rs 500 minimum balance | Balance Rs 500
+T3: ACCEPTED D Rs 1 | Balance Rs 501
+Accepted: 2 | Rejected: 1
+Deposits: Rs 1 | Withdrawals: Rs 500
+Final balance: Rs 501
+Reconciliation: 1000 + 1 - 500 = 501

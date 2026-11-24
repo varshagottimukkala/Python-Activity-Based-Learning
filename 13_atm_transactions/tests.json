@@ -1,0 +1,50 @@
+[
+  {
+    "id": "01_normal",
+    "kind": "Normal",
+    "purpose": "Process a sequence with accepted and rejected transactions.",
+    "input": "5000\n6\nT1|D|2000\nT2|W|1000\nT3|W|5600\nT4|W|150\nT2|D|500\nT5|X|100\n",
+    "expected": "Two accepted, four rejected. Deposits 2000, withdrawals 1000, final balance 6000.",
+    "contains": ["T1: ACCEPTED D Rs 2000 | Balance Rs 7000", "T2: ACCEPTED W Rs 1000 | Balance Rs 6000", "T3: REJECTED: withdrawal would breach the Rs 500 minimum balance", "T4: REJECTED: withdrawal must be a multiple of Rs 100", "T2: REJECTED: duplicate transaction ID", "T5: REJECTED: transaction type must be D or W", "Accepted: 2 | Rejected: 4", "Reconciliation: 5000 + 2000 - 1000 = 6000"]
+  },
+  {
+    "id": "02_withdrawal_limits",
+    "kind": "Boundary",
+    "purpose": "Allow exactly Rs 10000 per transaction and Rs 20000 per day, rejecting excess.",
+    "input": "50000\n4\nT1|W|10000\nT2|W|10000\nT3|W|100\nT4|W|10100\n",
+    "expected": "First two withdrawals succeed. Daily and per-transaction limit breaches fail. Balance 30000.",
+    "contains": ["T2: ACCEPTED W Rs 10000 | Balance Rs 30000", "T3: REJECTED: daily withdrawal limit is Rs 20000", "T4: REJECTED: per-transaction withdrawal limit is Rs 10000", "Accepted: 2 | Rejected: 2", "Final balance: Rs 30000"]
+  },
+  {
+    "id": "03_minimum_balance",
+    "kind": "Boundary",
+    "purpose": "Allow exactly Rs 500 remaining; deposits need not be multiples of 100.",
+    "input": "1000\n3\nT1|W|500\nT2|W|100\nT3|D|1\n",
+    "expected": "Withdrawal to 500 succeeds; further withdrawal fails; deposit of 1 succeeds. Final 501.",
+    "contains": ["T1: ACCEPTED W Rs 500 | Balance Rs 500", "T2: REJECTED: withdrawal would breach the Rs 500 minimum balance", "T3: ACCEPTED D Rs 1 | Balance Rs 501", "Accepted: 2 | Rejected: 1", "Final balance: Rs 501"]
+  },
+  {
+    "id": "04_invalid_values",
+    "kind": "Validation",
+    "purpose": "Retry invalid setup values and reject zero or negative amounts.",
+    "input": "400\nabc\n500\n0\n2\nT1|D|0\nT2|D|-1\n",
+    "expected": "Opening balance and count are retried. Both transactions fail without changing balance.",
+    "contains": ["ERROR: opening balance must be a whole number of at least 500.", "ERROR: enter an integer from 1 to 50.", "T1: REJECTED: amount must be a positive whole number", "T2: REJECTED: amount must be a positive whole number", "Accepted: 0 | Rejected: 2", "Final balance: Rs 500"]
+  },
+  {
+    "id": "05_ids_and_format",
+    "kind": "Validation",
+    "purpose": "Reject malformed rows, invalid IDs, invalid types, and reuse of a rejected ID.",
+    "input": "500\n4\nbroken\nbad id|D|1\nU1|X|1\nu1|D|10\n",
+    "expected": "All four rows rejected. U1 is reserved by its first well-formed occurrence.",
+    "contains": ["REJECTED: expected ID|D/W|amount", "REJECTED: ID must contain 1-12 ASCII letters or digits", "U1: REJECTED: transaction type must be D or W", "U1: REJECTED: duplicate transaction ID", "Accepted: 0 | Rejected: 4", "Final balance: Rs 500"]
+  },
+  {
+    "id": "06_deposit_does_not_reset_limit",
+    "kind": "Boundary",
+    "purpose": "A deposit after the daily withdrawal limit does not restore the withdrawal allowance.",
+    "input": "20500\n4\nT1|W|10000\nT2|W|10000\nT3|D|10000\nT4|W|100\n",
+    "expected": "Three accepted, one rejected. Withdrawal total stays 20000 and final balance is 10500.",
+    "contains": ["T3: ACCEPTED D Rs 10000 | Balance Rs 10500", "T4: REJECTED: daily withdrawal limit is Rs 20000", "Accepted: 3 | Rejected: 1", "Deposits: Rs 10000 | Withdrawals: Rs 20000", "Final balance: Rs 10500"]
+  }
+]

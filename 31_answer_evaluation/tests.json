@@ -1,0 +1,50 @@
+[
+  {
+    "id": "01_normal",
+    "kind": "Normal",
+    "purpose": "Score correct, incorrect, and unanswered responses, including negative totals.",
+    "input": "ABCD\n5\nS01|ABCD\nS02|AB-D\nS03|DCBA\nS04|----\nS05|ABAD\n",
+    "expected": "Scores 16, 12, -4, 0, 11. S01 ranks first; S02 has distinction and S05 passes.",
+    "contains": ["S01 | 4 | 0 | 0 | 16 | 100.00% | DISTINCTION", "S02 | 3 | 0 | 1 | 12 | 75.00% | DISTINCTION", "S03 | 0 | 4 | 0 | -4 | -25.00% | NEEDS PRACTICE", "S04 | 0 | 0 | 4 | 0 | 0.00% | NEEDS PRACTICE", "S05 | 3 | 1 | 0 | 11 | 68.75% | PASS", "Evaluated: 5 | Rejected: 0", "Top score: 16/16 (S01)"]
+  },
+  {
+    "id": "02_ties_and_normalization",
+    "kind": "Boundary",
+    "purpose": "Normalize lowercase answers and retain all top-scoring students.",
+    "input": "AB\n3\nS1|AB\nS2|ab\nS3|a-\n",
+    "expected": "S1 and S2 tie at 8; S3 passes at exactly 50%.",
+    "contains": ["S3 | 1 | 0 | 1 | 4 | 50.00% | PASS", "Top score: 8/8 (S1, S2)", "Evaluated: 3 | Rejected: 0"]
+  },
+  {
+    "id": "03_all_incorrect",
+    "kind": "Boundary",
+    "purpose": "Keep a negative score and still identify the top valid student.",
+    "input": "ABCD\n1\nS1|DCBA\n",
+    "expected": "Score -4, percentage -25%; top valid score is -4, not zero.",
+    "contains": ["S1 | 0 | 4 | 0 | -4 | -25.00% | NEEDS PRACTICE", "Top score: -4/16 (S1)"]
+  },
+  {
+    "id": "04_no_valid_students",
+    "kind": "Validation",
+    "purpose": "Reject wrong length, invalid symbols, duplicate IDs, and malformed records.",
+    "input": "AB\n4\nS1|A\nS2|AX\nS1|AB\nbroken\n",
+    "expected": "All four rejected; top score reported as unavailable.",
+    "contains": ["REJECTED S1: response length must match the answer key", "REJECTED S2: responses must contain only A-D or -", "REJECTED S1: duplicate student ID", "REJECTED row-4: expected ID|responses", "Evaluated: 0 | Rejected: 4", "Top score: no valid student records"]
+  },
+  {
+    "id": "05_invalid_setup",
+    "kind": "Validation",
+    "purpose": "Retry invalid or empty answer keys and invalid student counts.",
+    "input": "X\n\nab\n0\n2\nS1|AB\nS2|--\n",
+    "expected": "Key normalizes to AB. Scores are 8 and 0; both students are evaluated.",
+    "contains": ["ERROR: the answer key must contain 1-50 letters A-D.", "ERROR: enter an integer from 1 to 30.", "S1 | 2 | 0 | 0 | 8 | 100.00% | DISTINCTION", "S2 | 0 | 0 | 2 | 0 | 0.00% | NEEDS PRACTICE", "Evaluated: 2 | Rejected: 0"]
+  },
+  {
+    "id": "06_classification_cutoffs",
+    "kind": "Boundary",
+    "purpose": "Check exact 75% and 50% boundaries and negative marking.",
+    "input": "ABCD\n4\nS1|AB-D\nS2|AB--\nS3|A---\nS4|ABAD\n",
+    "expected": "Classifications: distinction, pass, needs practice, pass.",
+    "contains": ["S1 | 3 | 0 | 1 | 12 | 75.00% | DISTINCTION", "S2 | 2 | 0 | 2 | 8 | 50.00% | PASS", "S3 | 1 | 0 | 3 | 4 | 25.00% | NEEDS PRACTICE", "S4 | 3 | 1 | 0 | 11 | 68.75% | PASS"]
+  }
+]

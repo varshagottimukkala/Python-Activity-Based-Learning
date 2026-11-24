@@ -1,0 +1,668 @@
+[
+  {
+    "folder": "02_electricity_billing",
+    "number": "02",
+    "title": "Progressive Electricity Billing",
+    "short": "Electricity billing",
+    "focus": "Slabs · conditions · comparisons",
+    "statement": "Calculate household electricity bills using progressive consumption slabs, a fixed charge, a surcharge, and an on-time rebate. Compare a chronological sequence of monthly bills, identify increases greater than a specified threshold, and report every month tied for the highest bill.",
+    "objectives": [
+      "Apply progressive slabs without charging all units at the highest rate.",
+      "Use conditional rules for surcharge, rebate, and unusual bill increases.",
+      "Store monthly records as tuples in a list and unpack them during processing.",
+      "Preserve exact paise amounts while calculating and rounding charges."
+    ],
+    "assumptions": [
+      "The supplied brief gives no tariff values. The following rates are classroom assumptions, not an electricity provider's tariff.",
+      "Accept 1-12 months in chronological order, with unique labels of 1-12 characters. Labels are compared without regard to case. Units are nonnegative whole kWh.",
+      "The first 100 units cost Rs 1.50 each, the next 100 cost Rs 2.50 each, and every unit above 200 costs Rs 4.00. Fixed charge: Rs 50.00 per month, including at zero consumption.",
+      "Consumption above 300 units incurs a surcharge of 10% of the energy charge. At 100 units or less, on-time payment earns a rebate of 5% of the energy charge.",
+      "Money is calculated in integer paise. Percentage charges are rounded half up to the nearest paise using (amount * rate + 50) // 100. Only display formatting converts to rupees.",
+      "An unusual increase is strictly greater than 25% of the preceding final bill. Exactly 25% does not trigger an alert. There is no alert for the first month.",
+      "Malformed month records are retried and do not consume a month slot. Highest-bill ties retain input order."
+    ],
+    "input": "First enter the month count. Then enter label|units|Y/N for each month. Y means payment by the due date. Example: Jan|100|Y.",
+    "output": "An itemized monthly bill, percentage change from the preceding month, alert labels, total billed amount, and all highest-bill month labels.",
+    "thinking": [
+      "Decomposition: separate input validation, energy slabs, adjustments, and trend reporting.",
+      "Pattern recognition: each month follows the same tariff calculation.",
+      "Abstraction: represent a month by only its label, consumption, and on-time flag.",
+      "Algorithm design: scan the chronological list once, keeping the previous bill and the running maximum."
+    ],
+    "algorithm": [
+      "Read and validate the month count.",
+      "Read each three-field record. Validate the label, units, and Y/N flag; retry invalid or duplicate records.",
+      "Store accepted records as (label, units, on_time) tuples.",
+      "For each month, calculate energy in paise using the three progressive slabs.",
+      "Calculate the applicable surcharge and rebate, round each to paise, and add the fixed charge.",
+      "Print the bill. From the second month onward, calculate percentage change and flag bill * 100 > previous_bill * 125.",
+      "Accumulate the grand total and maintain the highest bill and every tied label.",
+      "Print the total, highest-bill labels, and unusual-increase labels."
+    ],
+    "pseudocode": "START\nREAD a valid month_count in 1..12\nmonths <- empty list; labels <- empty list\nWHILE accepted months < month_count\n    READ label, units, on_time\n    IF record is invalid OR label already exists\n        PRINT error; RETRY\n    ELSE\n        APPEND (label, units, on_time) to months\n        APPEND normalized label to labels\nprevious_bill <- 0; highest_bill <- -1; total <- 0\nFOR EACH (label, units, on_time) IN months\n    IF units <= 100\n        energy <- units * 150\n    ELSE IF units <= 200\n        energy <- 15000 + (units - 100) * 250\n    ELSE\n        energy <- 40000 + (units - 200) * 400\n    surcharge <- 0; rebate <- 0\n    IF units > 300: surcharge <- (energy * 10 + 50) DIV 100\n    IF units <= 100 AND on_time = Y\n        rebate <- (energy * 5 + 50) DIV 100\n    bill <- energy + 5000 + surcharge - rebate\n    PRINT itemized bill\n    IF previous_bill > 0\n        PRINT (bill - previous_bill) * 100 / previous_bill\n        IF bill * 100 > previous_bill * 125: RECORD alert\n    UPDATE highest bill and all ties\n    total <- total + bill; previous_bill <- bill\nPRINT total, highest-bill months, alert months\nSTOP",
+    "conclusion": "The solution combines progressive arithmetic, conditional policies, and a running comparison without advanced Python features. Its boundary tests distinguish slab transitions, the 300-unit surcharge threshold, paise rounding, and an increase of exactly 25%.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["setup", 1, "input", "Read and validate month count\\n1 to 12"],
+        ["read", 2, "input", "Read label | units | on-time flag"],
+        ["valid", 3, "decision", "Valid fields and\\nunique month label?"],
+        ["retry", 3, "side", "Print error\\nRetry this month"],
+        ["store", 4, "process", "Append tuple to months\\nRemember normalized label"],
+        ["more", 5, "decision", "More months to read?"],
+        ["init", 6, "process", "Initialize totals, previous bill,\\nmaximum and alert lists"],
+        ["next", 7, "process", "Unpack next month tuple"],
+        ["bill", 8, "process", "Apply slabs; add fixed charge\\nApply surcharge and rebate\\nRound adjustments to paise"],
+        ["compare", 9, "process", "Print bill; compare with previous\\nFlag increase strictly above 25%\\nUpdate total and highest-bill ties"],
+        ["remaining", 10, "decision", "More months to bill?"],
+        ["summary", 11, "input", "Print totals, highest-bill months,\\nand unusual increases"],
+        ["end", 12, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "setup"], ["setup", "read"], ["read", "valid"],
+        ["valid", "store", "Yes"], ["valid", "retry", "No", "side"],
+        ["retry", "read", "", "retry"], ["store", "more"],
+        ["more", "read", "Yes", "loop"], ["more", "init", "No"],
+        ["init", "next"], ["next", "bill"], ["bill", "compare"],
+        ["compare", "remaining"], ["remaining", "next", "Yes", "loop"],
+        ["remaining", "summary", "No"], ["summary", "end"]
+      ]
+    }
+  },
+  {
+    "folder": "13_atm_transactions",
+    "number": "13",
+    "title": "ATM Transaction Sequence Simulation",
+    "short": "ATM transactions",
+    "focus": "State · validation · reconciliation",
+    "statement": "Simulate a sequence of deposits and withdrawals against one account. Validate each attempted transaction, enforce withdrawal limits and a minimum balance, leave balances unchanged for rejected attempts, and produce a transaction-by-transaction audit and final reconciliation.",
+    "objectives": [
+      "Maintain an account balance across a sequential transaction list.",
+      "Apply multiple validation and withdrawal conditions in a defined order.",
+      "Reject repeated transaction identifiers without double-processing an amount.",
+      "Reconcile the opening balance, deposits, withdrawals, and closing balance."
+    ],
+    "assumptions": [
+      "This is a one-day classroom simulation using fictional data and whole rupees. It does not connect to a bank.",
+      "Opening balance is at least Rs 500. Accept 1-50 attempted transactions. Deposits have no policy cap and must be positive whole rupees.",
+      "Withdrawal amounts must be positive multiples of Rs 100, no more than Rs 10000 per transaction, and no more than Rs 20000 in successful withdrawals during the day.",
+      "Every successful withdrawal must leave at least Rs 500. A later deposit does not reset the daily withdrawal allowance.",
+      "A transaction ID is 1-12 ASCII letters or digits, normalized to uppercase. A well-formed row with a syntactically valid new ID reserves that ID even when its type or amount is later rejected.",
+      "D means deposit and W means withdrawal; letter case is normalized. Invalid records count as attempts. The first failure in the program's validation order is reported, and rejected records never change the balance."
+    ],
+    "input": "Enter opening balance, number of attempts, then ID|D/W|amount for each attempt. Example: T1|W|1000.",
+    "output": "For every attempt: ID, acceptance or rejection reason, and unchanged or updated balance. The summary shows counts, deposit and withdrawal totals, and an arithmetic reconciliation.",
+    "thinking": [
+      "Decomposition: validate setup, identify transactions, apply account rules, and reconcile.",
+      "Pattern recognition: every accepted transaction changes the same balance state.",
+      "Abstraction: retain identifiers, operation types, amounts, and resulting balances.",
+      "Algorithm design: process in input order because earlier operations affect later eligibility."
+    ],
+    "algorithm": [
+      "Read a valid opening balance and transaction attempt count.",
+      "Initialize balance, deposit and withdrawal totals, counters, seen IDs, and audit results.",
+      "Read a transaction. Check its shape, ID syntax, and whether that ID has already appeared.",
+      "Reserve a new valid ID, then validate type and positive integer amount.",
+      "For withdrawals, check denomination, per-transaction limit, daily limit, and remaining balance in that order.",
+      "If valid, update balance and the relevant total. Otherwise record a rejection without altering money.",
+      "Append the ID, status, and resulting balance to the audit list.",
+      "After all attempts, print the audit and verify opening + deposits - withdrawals = final balance."
+    ],
+    "pseudocode": "START\nREAD opening_balance >= 500 and attempt_count in 1..50\nbalance <- opening_balance\nseen_ids <- empty list; results <- empty list\ndeposited <- 0; withdrawn <- 0\naccepted <- 0; rejected <- 0\nFOR EACH attempt\n    READ ID, type, amount\n    reason <- empty\n    VALIDATE record shape, ID syntax, and uniqueness\n    IF new valid ID: ADD ID to seen_ids\n    VALIDATE type in {D, W} and positive whole amount\n    IF type = W AND no earlier error\n        CHECK amount MOD 100 = 0\n        CHECK amount <= 10000\n        CHECK withdrawn + amount <= 20000\n        CHECK balance - amount >= 500\n    IF no error\n        IF type = D\n            balance <- balance + amount\n            deposited <- deposited + amount\n        ELSE\n            balance <- balance - amount\n            withdrawn <- withdrawn + amount\n        accepted <- accepted + 1\n    ELSE\n        rejected <- rejected + 1\n    APPEND (ID, status or first error, balance) to results\nPRINT results, counts, and totals\nPRINT opening_balance + deposited - withdrawn = balance\nSTOP",
+    "conclusion": "The program demonstrates how ordered validation protects a changing state. Tests confirm exact withdrawal limits, the minimum-balance boundary, rejected-ID reuse, and the fact that deposits do not replenish the daily withdrawal allowance.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["setup", 1, "input", "Validate opening balance and count\\nInitialize balance, totals and seen IDs"],
+        ["read", 2, "input", "Read the next ID | type | amount"],
+        ["valid", 3, "decision", "Valid format, new ID,\\ntype and positive amount?"],
+        ["policy", 4, "decision", "Deposit OR all withdrawal\\nconditions satisfied?"],
+        ["reject", 4, "side", "Record first rejection reason\\nKeep balance unchanged"],
+        ["update", 5, "process", "Apply deposit or withdrawal\\nUpdate successful totals and count"],
+        ["log", 6, "process", "Append status and resulting balance\\nto the transaction audit"],
+        ["more", 7, "decision", "More attempts?"],
+        ["summary", 8, "input", "Print audit, counts and totals\\nOpening + deposits - withdrawals\\n= closing balance"],
+        ["end", 9, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "setup"], ["setup", "read"], ["read", "valid"],
+        ["valid", "policy", "Yes"], ["valid", "reject", "No", "side"],
+        ["policy", "update", "Yes"], ["policy", "reject", "No", "side"],
+        ["reject", "log", "", "merge"], ["update", "log"], ["log", "more"],
+        ["more", "read", "Yes", "loop"], ["more", "summary", "No"], ["summary", "end"]
+      ]
+    }
+  },
+  {
+    "folder": "14_warehouse_reconciliation",
+    "number": "14",
+    "title": "Warehouse Inventory Reconciliation",
+    "short": "Warehouse reconciliation",
+    "focus": "Lists · arithmetic · discrepancy flags",
+    "statement": "Compare opening stock, receipts, dispatches, and physically observed closing stock for multiple products. Identify shortages and surpluses, reject impossible stock movement, and calculate each product's replenishment quantity against its target.",
+    "objectives": [
+      "Reconcile theoretical and physical stock using a stock-balance equation.",
+      "Distinguish invalid movement from an auditable physical discrepancy.",
+      "Calculate replenishment from the observed stock level.",
+      "Store and unpack multi-field product tuples and summarize audit counts."
+    ],
+    "assumptions": [
+      "Accept 1-20 attempted product records. All quantities are nonnegative whole units of the same product; cross-product replenishment totals count units only.",
+      "Product codes contain 1-12 ASCII letters or digits and normalize to uppercase. The first correctly shaped record with a valid code reserves that code, even if later numeric validation fails.",
+      "Expected closing stock = opening + incoming - dispatched. Dispatch greater than opening + incoming is impossible under this model and is rejected.",
+      "Difference = observed closing - expected closing. A negative difference is a shortage; a positive one is a surplus.",
+      "Observed stock may differ from the records and remains auditable even if it exceeds expected stock. Replenishment is target - observed when observed is below target, otherwise zero.",
+      "Invalid records count as attempts and contribute to neither stock calculations nor replenishment totals."
+    ],
+    "input": "Enter the record count, then code|opening|incoming|dispatched|observed_closing|target. Example: P100|50|20|40|28|40.",
+    "output": "Rejected-record reasons, expected and observed quantities, signed discrepancies, status, per-product replenishment, and audit totals.",
+    "thinking": [
+      "Decomposition: check record validity, calculate expected stock, compare, and replenish.",
+      "Pattern recognition: each product follows the same inventory-balance equation.",
+      "Abstraction: physical and book quantities are separate fields; neither overwrites the other.",
+      "Algorithm design: exclude invalid records before calculating the accepted-record summary."
+    ],
+    "algorithm": [
+      "Read a valid record count and initialize products, seen codes, and rejection count.",
+      "Read six fields per attempted record and validate the product code and uniqueness.",
+      "Validate five nonnegative integer quantities.",
+      "Reject dispatch above available stock; otherwise store the product tuple.",
+      "For each stored tuple, calculate expected stock and observed - expected.",
+      "Classify each difference as shortage, surplus, or match.",
+      "Calculate replenishment from observed stock and add it to the total.",
+      "Print the itemized audit, discrepancy count, rejected count, and replenishment total."
+    ],
+    "pseudocode": "START\nREAD record_count in 1..20\nproducts <- empty list; seen_codes <- empty list\nFOR EACH attempted record\n    READ code, opening, incoming, dispatched, observed, target\n    VALIDATE six fields and a new valid normalized code\n    RESERVE each new syntactically valid code\n    VALIDATE all quantities as nonnegative integers\n    IF dispatched > opening + incoming: REJECT\n    IF valid: APPEND the six-field product tuple\n    ELSE: PRINT reason and increment rejected count\ndiscrepancies <- 0; total_replenishment <- 0\nFOR EACH product tuple\n    expected <- opening + incoming - dispatched\n    difference <- observed - expected\n    IF difference < 0: status <- SHORTAGE\n    ELSE IF difference > 0: status <- SURPLUS\n    ELSE: status <- MATCH\n    IF difference != 0: discrepancies <- discrepancies + 1\n    replenish <- 0\n    IF observed < target: replenish <- target - observed\n    total_replenishment <- total_replenishment + replenish\n    PRINT code, expected, observed, difference, status, replenish\nPRINT audit and replenishment totals\nSTOP",
+    "conclusion": "The audit keeps stock-record discrepancies separate from purchasing needs. Tests show that replenishment uses the physical count, that complete dispatch is valid, and that impossible movement and duplicate codes cannot distort totals.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["setup", 1, "input", "Validate record count\\nInitialize accepted and seen-code lists"],
+        ["read", 2, "input", "Read six product fields\\nReserve a new valid-shaped code"],
+        ["valid", 3, "decision", "New valid code, whole quantities,\\nand dispatch <= available?"],
+        ["reject", 3, "side", "Print rejection reason\\nIncrement rejected count"],
+        ["store", 4, "process", "Append accepted product tuple"],
+        ["more", 5, "decision", "More product attempts?"],
+        ["audit", 6, "process", "For each accepted tuple:\\nexpected = opening + incoming - dispatch\\ndifference = observed - expected"],
+        ["replenish", 7, "process", "Classify shortage / surplus / match\\nReplenish only when observed < target\\nAccumulate discrepancy and unit totals"],
+        ["summary", 8, "input", "Print product audit and totals"],
+        ["end", 9, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "setup"], ["setup", "read"], ["read", "valid"],
+        ["valid", "store", "Yes"], ["valid", "reject", "No", "side"],
+        ["reject", "more", "", "merge"], ["store", "more"],
+        ["more", "read", "Yes", "loop"], ["more", "audit", "No"],
+        ["audit", "replenish"], ["replenish", "summary"], ["summary", "end"]
+      ]
+    }
+  },
+  {
+    "folder": "16_water_tank",
+    "number": "16",
+    "title": "Multi-Day Water Tank Simulation",
+    "short": "Water tank simulation",
+    "focus": "Simulation · loops · conservation",
+    "statement": "Simulate a tank across a sequence of intervals with changing inflow and demand. Keep the stored level within capacity, measure overflow and unmet demand, identify the first interval in which a threshold is reached, and verify the water balance.",
+    "objectives": [
+      "Update a bounded state across multiple time intervals.",
+      "Distinguish demand, delivered water, spilled water, and shortage.",
+      "Detect threshold crossings before an interval's later withdrawal.",
+      "Check conservation using initial water, inflow, final water, supply, and spill."
+    ],
+    "assumptions": [
+      "All values are whole litres. Capacity is positive; initial level and threshold lie between zero and capacity, inclusive. Accept 1-30 valid intervals.",
+      "Within each interval, all inflow occurs first, excess immediately spills, and demand is then supplied from the remaining stored water. There is no simultaneous-flow model.",
+      "Delivered water is the smaller of demand and stored water after filling. Unmet demand is demand minus delivered water.",
+      "The threshold means a stored level greater than or equal to the target. Check the initial level and the level after filling, before demand. A later fall below the threshold does not erase the first crossing.",
+      "Interval 0 denotes an initially met threshold. A zero threshold is therefore reached initially.",
+      "Malformed inflow/demand records are retried and do not advance time. There are no unrecorded leaks or evaporation."
+    ],
+    "input": "Enter capacity, initial level, threshold, interval count, then inflow|demand for each interval. Example: 60|40.",
+    "output": "A table of start level, inflow, demand, delivered quantity, spill, shortage, and end level; aggregate flows; first threshold interval; and a conservation equation.",
+    "thinking": [
+      "Decomposition: fill, spill, test the threshold, supply demand, and summarize.",
+      "Pattern recognition: the same state transition repeats each interval.",
+      "Abstraction: represent water as a scalar level and retain an interval tuple for the audit.",
+      "Algorithm design: enforce operation order so overflow and shortage can both occur in one interval."
+    ],
+    "algorithm": [
+      "Validate capacity, initial water, threshold, and interval count.",
+      "Set the current level to initial water and record interval 0 if the threshold is already met.",
+      "Read and validate inflow and demand, retrying malformed records.",
+      "Save the starting level, add inflow, calculate any spill, and cap the stored level at capacity.",
+      "If no earlier crossing exists and the filled level meets the threshold, record the current interval.",
+      "Deliver demand up to the available level, calculate shortage, and subtract delivered water.",
+      "Accumulate totals and append the interval audit tuple.",
+      "After all intervals, print the audit and confirm initial + inflow = final + delivered + spill."
+    ],
+    "pseudocode": "START\nREAD valid capacity, initial, threshold, interval_count\nlevel <- initial; first_crossing <- NOT_REACHED\nIF initial >= threshold: first_crossing <- 0\nINITIALIZE totals and interval records\nWHILE completed intervals < interval_count\n    READ inflow and demand\n    IF either is not a nonnegative integer: PRINT error; RETRY\n    start_level <- level\n    level <- level + inflow\n    spill <- 0\n    IF level > capacity\n        spill <- level - capacity\n        level <- capacity\n    IF first_crossing is NOT_REACHED AND level >= threshold\n        first_crossing <- current interval number\n    served <- demand; shortage <- 0\n    IF demand > level\n        served <- level\n        shortage <- demand - level\n    level <- level - served\n    UPDATE flow totals\n    APPEND (start, inflow, demand, served, spill, shortage, level)\nPRINT interval audit and totals\nPRINT initial crossing, first interval, or never\nPRINT initial + total_inflow = level + total_served + total_spill\nSTOP",
+    "conclusion": "The simulation accounts for every litre and makes the order of events explicit. Tests cover initial and zero thresholds, a never-reached threshold, and an interval that spills water before later suffering a shortage.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["setup", 1, "input", "Validate capacity, initial level,\\nthreshold and interval count"],
+        ["init", 2, "process", "Set current level and totals\\nIf initial >= threshold, record interval 0"],
+        ["read", 3, "input", "Read inflow | demand"],
+        ["valid", 4, "decision", "Two nonnegative\\nwhole quantities?"],
+        ["retry", 4, "side", "Print error\\nRetry this interval"],
+        ["fill", 5, "process", "Save start level and add inflow"],
+        ["spill", 6, "process", "If above capacity: record spill\\nand cap the stored level"],
+        ["threshold", 7, "process", "Record first threshold crossing\\nif filled level >= threshold"],
+        ["serve", 8, "process", "Supply demand up to available level\\nRecord shortage and subtract supply"],
+        ["store", 9, "process", "Accumulate flows\\nAppend interval audit tuple"],
+        ["more", 10, "decision", "More intervals?"],
+        ["summary", 11, "input", "Print audit, first crossing and totals\\nCheck water conservation"],
+        ["end", 12, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "setup"], ["setup", "init"], ["init", "read"], ["read", "valid"],
+        ["valid", "fill", "Yes"], ["valid", "retry", "No", "side"],
+        ["retry", "read", "", "retry"], ["fill", "spill"], ["spill", "threshold"],
+        ["threshold", "serve"], ["serve", "store"], ["store", "more"],
+        ["more", "read", "Yes", "loop"], ["more", "summary", "No"], ["summary", "end"]
+      ]
+    }
+  },
+  {
+    "folder": "23_timetable_conflicts",
+    "number": "23",
+    "title": "Student Timetable Conflict Detection",
+    "short": "Timetable conflicts",
+    "focus": "Strings · tuples · interval overlap",
+    "statement": "Validate a proposed timetable for one student. Parse course sessions from strings into tuples, detect overlapping sessions and simultaneous room bookings, identify sessions scheduled during room closures, and report whether the timetable is valid.",
+    "objectives": [
+      "Parse and validate strict 24-hour time strings using basic string operations.",
+      "Represent sessions and room closures as tuples with minute-based time intervals.",
+      "Use nested loops to compare unique session pairs.",
+      "Distinguish student conflicts, room conflicts, malformed records, and blocked bookings."
+    ],
+    "assumptions": [
+      "Accept 1-20 attempted session records for one student's timetable. Valid days are MON-FRI and valid rooms are R101, R102, and LAB2.",
+      "Assumed closures: LAB2 on WED from 10:00 to 12:00, and R102 on FRI from 13:00 to 14:00.",
+      "Course codes contain 1-12 ASCII letters or digits. Course, day, and room text normalize to uppercase.",
+      "Times use exactly HH:MM, from 00:00 through 23:59. Each session ends after it starts on the same day. Overnight sessions and 24:00 are outside this model.",
+      "Intervals are half-open: [start, end). A session may end exactly when another begins or a closure starts. Overlap requires a_start < b_end and b_start < a_end.",
+      "Every same-day overlapping pair is a student conflict; it is additionally a room conflict if both rooms match. Compare each pair once.",
+      "Identical session tuples are rejected. A course may have distinct sessions. Syntactically valid sessions during closures remain in the pairwise audit so every problem is reported.",
+      "Any rejected record, student conflict, or blocked booking makes the complete timetable invalid."
+    ],
+    "input": "Enter the number of attempts and then course|day|HH:MM|HH:MM|room. Example: CS101|MON|09:00|10:00|R101.",
+    "output": "Rejected-record reasons, unavailable-room bookings, named conflict pairs, separate conflict counts, and a final VALID or INVALID verdict.",
+    "thinking": [
+      "Decomposition: parse sessions, check closures, compare pairs, and combine findings.",
+      "Pattern recognition: the same strict overlap test applies to sessions and closures.",
+      "Abstraction: replace clock strings with minutes after midnight.",
+      "Algorithm design: compare index pairs with the second index greater than the first to avoid double-counting."
+    ],
+    "algorithm": [
+      "Define valid days, rooms, and the supplied classroom closure tuples.",
+      "Read a valid session count and validate each five-field record.",
+      "Convert both valid HH:MM strings into hour * 60 + minute; require start < end.",
+      "Reject duplicate session tuples; store other valid tuples.",
+      "Compare each stored session with every closure for its room and day, reporting overlaps.",
+      "Compare each unique pair of stored sessions on the same day using the strict overlap inequalities.",
+      "Count every overlapping pair as a student conflict and, when rooms match, as a room conflict.",
+      "Print counts and declare the timetable valid only when no rejection, overlap, or blocked booking exists."
+    ],
+    "pseudocode": "START\nDEFINE valid days, rooms, and closure tuples\nREAD session_count in 1..20\nsessions <- empty list; rejected <- 0\nFOR EACH attempted record\n    READ course, day, start_text, end_text, room\n    VALIDATE fields, course code, day, and room\n    FOR EACH of the two time strings\n        CHECK exactly HH:MM, ASCII digits, hour 0..23, minute 0..59\n        CONVERT to hour * 60 + minute\n    CHECK start < end and tuple not already in sessions\n    IF valid: APPEND (course, day, start, end, room)\n    ELSE: PRINT reason; increment rejected\nFOR EACH session AND EACH room closure\n    IF same room and day AND start < closure_end AND end > closure_start\n        REPORT unavailable booking\nFOR first_index FROM 0 TO number_of_sessions - 1\n    FOR second_index FROM first_index + 1 TO number_of_sessions - 1\n        IF same day AND first_start < second_end AND second_start < first_end\n            REPORT student conflict\n            IF rooms match: ALSO COUNT room conflict\nPRINT counts\nIF no rejected records, student conflicts, or blocked bookings\n    PRINT VALID\nELSE: PRINT INVALID\nSTOP",
+    "conclusion": "Converting times to minutes makes the conflict rule precise and reusable. Tests prove that adjacent sessions and closure endpoints are allowed, that different rooms do not remove a student's conflict, and that duplicate records do not multiply pair counts.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["setup", 1, "input", "Define days, rooms and closures\\nRead a valid session count"],
+        ["read", 2, "input", "Read course | day | start | end | room"],
+        ["valid", 3, "decision", "Valid fields, times and duration;\\nnot an identical session?"],
+        ["reject", 3, "side", "Print reason\\nIncrement rejected records"],
+        ["store", 4, "process", "Convert times to minutes\\nAppend the session tuple"],
+        ["more", 5, "decision", "More session attempts?"],
+        ["closures", 6, "process", "Compare sessions with closures\\nSame room/day and strict overlap\\nReport unavailable bookings"],
+        ["pairs", 7, "process", "Compare each unique session pair\\nSame-day overlap = student conflict\\nSame room also = room conflict"],
+        ["verdict", 8, "decision", "No rejected records, overlaps,\\nor unavailable bookings?"],
+        ["validout", 9, "input", "Print counts and VALID"],
+        ["invalidout", 9, "side", "Print counts and INVALID"],
+        ["end", 10, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "setup"], ["setup", "read"], ["read", "valid"],
+        ["valid", "store", "Yes"], ["valid", "reject", "No", "side"],
+        ["reject", "more", "", "merge"], ["store", "more"],
+        ["more", "read", "Yes", "loop"], ["more", "closures", "No"],
+        ["closures", "pairs"], ["pairs", "verdict"],
+        ["verdict", "validout", "Yes"], ["verdict", "invalidout", "No", "side"],
+        ["validout", "end"], ["invalidout", "end", "", "merge"]
+      ]
+    }
+  },
+  {
+    "folder": "27_numeric_diamond",
+    "number": "27",
+    "title": "Advanced Numeric Pattern Generator",
+    "short": "Hollow numeric diamond",
+    "focus": "Nested loops · symmetry · alignment",
+    "statement": "Generate a hollow, symmetric numeric diamond for a user-specified number of levels. Validate the dimension, preserve alignment, and handle the single-level boundary without printing a duplicate digit.",
+    "objectives": [
+      "Use nested loops to map rows and columns to a pattern.",
+      "Derive the matching upper and lower halves from one level formula.",
+      "Print only boundary digits while preserving the hollow interior.",
+      "Validate dimensions and report the generated height, width, and digit count."
+    ],
+    "assumptions": [
+      "The chosen variant of the brief is a hollow numeric diamond. A level is represented by its own digit.",
+      "Accept an integer size from 1 to 9 so every printed value occupies one character.",
+      "The output has 2 * size - 1 rows and the same maximum width. Spaces between the two edge digits remain blank.",
+      "Rows are shown in a monospaced font. Leading spaces are meaningful; trailing spaces are removed.",
+      "Invalid sizes are retried. At size 1, the left and right edges coincide and print one digit."
+    ],
+    "input": "One integer size in 1-9. Example: 4.",
+    "output": "A hollow numeric diamond followed by its height, maximum width, and the number of printed digits.",
+    "thinking": [
+      "Decomposition: validate the size, determine each row's level, determine boundaries, and print.",
+      "Pattern recognition: lower-half levels mirror the upper half.",
+      "Abstraction: a cell needs only its row, column, and the two edge positions.",
+      "Algorithm design: one nested row/column loop handles both halves and the size-one case."
+    ],
+    "algorithm": [
+      "Read and validate size between 1 and 9.",
+      "Set dimension = 2 * size - 1 and digit count = 0.",
+      "For each row from 1 through dimension, use level = row in the upper half and level = 2 * size - row in the lower half.",
+      "Calculate left_edge = size - level + 1 and right_edge = size + level - 1.",
+      "Scan all columns. Append the level digit when the column matches either edge; otherwise append one space.",
+      "Increment the digit count only once for each printed cell, including coincident edges.",
+      "Remove trailing spaces and print the completed row.",
+      "Print the height, maximum width, and digit count."
+    ],
+    "pseudocode": "START\nREAD valid size in 1..9\ndimension <- 2 * size - 1\ndigit_count <- 0\nFOR row FROM 1 TO dimension\n    IF row <= size: level <- row\n    ELSE: level <- 2 * size - row\n    left_edge <- size - level + 1\n    right_edge <- size + level - 1\n    line <- empty string\n    FOR column FROM 1 TO dimension\n        IF column = left_edge OR column = right_edge\n            APPEND text(level) to line\n            digit_count <- digit_count + 1\n        ELSE\n            APPEND one space to line\n    REMOVE trailing spaces from line\n    PRINT line\nPRINT dimension as height and maximum width\nPRINT digit_count\nSTOP",
+    "conclusion": "A single mirrored level formula generates the complete pattern with basic loops and strings. Tests include both size limits, invalid dimensions, exact row spacing, and the special one-digit output for size 1.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["read", 1, "input", "Read number of levels"],
+        ["valid", 2, "decision", "Whole number in 1 to 9?"],
+        ["retry", 2, "side", "Print error\\nRetry size"],
+        ["init", 3, "process", "dimension = 2 * size - 1\\ndigit_count = 0"],
+        ["row", 4, "process", "Take the next row\\nStart an empty line"],
+        ["edges", 5, "process", "Find mirrored level\\nleft = size - level + 1\\nright = size + level - 1"],
+        ["column", 6, "process", "Take the next column"],
+        ["edge", 7, "decision", "Column matches\\neither edge?"],
+        ["digit", 8, "process", "Append level digit\\nIncrement digit count"],
+        ["space", 8, "side", "Append one space"],
+        ["columns", 9, "decision", "More columns?"],
+        ["print", 10, "input", "Remove trailing spaces\\nPrint the line"],
+        ["rows", 11, "decision", "More rows?"],
+        ["summary", 12, "input", "Print height, maximum width\\nand digit count"],
+        ["end", 13, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "read"], ["read", "valid"], ["valid", "init", "Yes"],
+        ["valid", "retry", "No", "side"], ["retry", "read", "", "retry"],
+        ["init", "row"], ["row", "edges"], ["edges", "column"], ["column", "edge"],
+        ["edge", "digit", "Yes"], ["edge", "space", "No", "side"],
+        ["digit", "columns"], ["space", "columns", "", "merge"],
+        ["columns", "column", "Yes", "inner_loop"], ["columns", "print", "No"],
+        ["print", "rows"], ["rows", "row", "Yes", "loop"],
+        ["rows", "summary", "No"], ["summary", "end"]
+      ]
+    }
+  },
+  {
+    "folder": "29_password_validation",
+    "number": "29",
+    "title": "Password Policy Validation Engine",
+    "short": "Password policy",
+    "focus": "Character scanning · strings · reasons",
+    "statement": "Evaluate fictional password samples against a declared length, character-category, repetition, and prohibited-substring policy. Report every failed condition for each sample, without repeating the full password in the result audit.",
+    "objectives": [
+      "Scan strings using loops and character comparisons.",
+      "Collect every policy failure instead of stopping after the first one.",
+      "Detect consecutive character runs and case-insensitive substrings.",
+      "Separate input-format errors from password-policy failures."
+    ],
+    "assumptions": [
+      "This is a string-processing classroom policy, not a production authentication system. Use fictional sample strings. Normal input() entry is visible in a terminal; only the audit avoids printing full passwords.",
+      "Accept 1-20 samples in username|password form, with exactly one separator. Usernames contain 3-20 ASCII letters or digits.",
+      "Password length is 10-64 characters. Require at least one ASCII uppercase letter, lowercase letter, digit, and one special character from !@#$%^&*?_-.",
+      "Only those character groups are allowed. Password whitespace is preserved and rejected; it is not silently stripped. The pipe character is not an allowed password character.",
+      "Three or more identical consecutive characters are prohibited. Repetition matching is case-sensitive.",
+      "The substrings password, admin, qwerty, and 1234 are forbidden regardless of case. A valid username must not appear in the password regardless of case.",
+      "Malformed records are rejected as samples. For a correctly shaped record, report all independently testable failures. An invalid username does not prevent evaluation of the other password rules."
+    ],
+    "input": "Enter the sample count, then username|password. Example fictional input: Mira|M8!riverOak.",
+    "output": "Sample number and username, ACCEPTED or REJECTED status, every failed condition, and accepted/rejected totals.",
+    "thinking": [
+      "Decomposition: validate record shape, scan categories, detect runs, and inspect substrings.",
+      "Pattern recognition: one scan can collect category flags and run lengths together.",
+      "Abstraction: represent compliance through booleans and a list of failure explanations.",
+      "Algorithm design: accept only when the full failure list remains empty."
+    ],
+    "algorithm": [
+      "Read a valid sample count and initialize result and summary lists/counters.",
+      "Split each sample on the separator; reject malformed records.",
+      "Check username syntax and password length.",
+      "Scan every password character to set category flags, flag disallowed characters, and detect runs of at least three identical characters.",
+      "Append a separate failure for each missing category, invalid-character condition, and prohibited run.",
+      "Compare a lowercase copy with every prohibited substring and the valid username.",
+      "Store the sample number, username, and complete failure list.",
+      "Print ACCEPTED for empty failure lists; otherwise print REJECTED and all reasons. Print totals."
+    ],
+    "pseudocode": "START\nREAD sample_count in 1..20\nDEFINE allowed special characters and prohibited substrings\nFOR EACH sample\n    failures <- empty list\n    READ username|password without trimming password\n    IF record does not contain exactly two fields\n        ADD malformed-record failure\n    ELSE\n        CHECK username syntax and password length\n        INITIALIZE category flags, run length, and previous character\n        FOR EACH character IN password\n            SET its ASCII category flag OR flag invalid character\n            IF character = previous: increment run length\n            ELSE: run length <- 1\n            IF run length >= 3: flag prohibited repetition\n            previous <- character\n        ADD a failure for every missing category\n        ADD invalid-character and repetition failures when applicable\n        FOR EACH prohibited substring\n            IF it appears in lowercase(password): ADD its failure\n        IF username is valid AND lowercase(username) appears in lowercase(password)\n            ADD username-substring failure\n    STORE (sample number, username, failures)\n    UPDATE accepted or rejected count\nPRINT every sample status and every failure\nPRINT totals\nSTOP",
+    "conclusion": "The validator explains policy outcomes using only string scans, lists, tuples, and conditionals. Tests cover length limits, every kind of policy rule, case-insensitive matching, preserved whitespace, and the difference between two and three repeated characters.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["setup", 1, "input", "Read valid sample count\\nDefine character and substring policies"],
+        ["read", 2, "input", "Read username | password\\nStart an empty failure list"],
+        ["valid", 3, "decision", "Exactly two fields?"],
+        ["reject", 3, "side", "Add malformed-record failure"],
+        ["scan", 4, "process", "Check username and length\\nScan character categories and runs\\nCollect every failed condition"],
+        ["substrings", 5, "process", "Check all prohibited substrings\\nand username without regard to case"],
+        ["store", 6, "process", "Store sample result and failure list\\nEmpty list = accepted\\nOtherwise = rejected"],
+        ["more", 7, "decision", "More samples?"],
+        ["summary", 8, "input", "Print each status and every failure\\nPrint accepted / rejected totals"],
+        ["end", 9, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "setup"], ["setup", "read"], ["read", "valid"],
+        ["valid", "scan", "Yes"], ["valid", "reject", "No", "side"],
+        ["reject", "store", "", "merge"], ["scan", "substrings"],
+        ["substrings", "store"], ["store", "more"],
+        ["more", "read", "Yes", "loop"], ["more", "summary", "No"], ["summary", "end"]
+      ]
+    }
+  },
+  {
+    "folder": "31_answer_evaluation",
+    "number": "31",
+    "title": "String-Based Examination Answer Evaluation",
+    "short": "Answer evaluation",
+    "focus": "Indexing · negative marking · ties",
+    "statement": "Compare student answer strings with an answer key. Count correct, incorrect, and unanswered responses, apply positive and negative marking, classify results using stated thresholds, and identify all students tied for the top valid score.",
+    "objectives": [
+      "Validate answer strings before accessing matching character positions.",
+      "Use string indexing to count three mutually exclusive response outcomes.",
+      "Apply negative marking without silently clamping negative totals.",
+      "Handle top-score ties and the case where no valid student record exists."
+    ],
+    "assumptions": [
+      "The answer key contains 1-50 letters A-D; letter case is normalized. Accept 1-30 attempted student records.",
+      "Student IDs contain 1-12 ASCII letters or digits and normalize to uppercase. A correctly shaped row with a valid new ID reserves the ID even if its answer string is invalid.",
+      "Each response string has exactly the key length and contains A-D or '-' for unanswered. Outer whitespace is stripped; interior whitespace is invalid.",
+      "Correct = +4 marks, incorrect = -1, unanswered = 0. Final scores may be negative. Maximum score = 4 * question_count.",
+      "Percentage = score * 100 / maximum. At least 75% gives DISTINCTION, at least 50% gives PASS, otherwise NEEDS PRACTICE.",
+      "Malformed student records count as attempts and are excluded from scores and ranking. All top-score ties are shown in input order."
+    ],
+    "input": "Enter the answer key, record count, and ID|responses for each student. Example: S02|AB-D for key ABCD.",
+    "output": "Rejected-record reasons; correct, incorrect, and unanswered counts; score, percentage and classification; evaluation totals; and top-score ties.",
+    "thinking": [
+      "Decomposition: validate the key, validate each record, score positions, and rank.",
+      "Pattern recognition: each character position produces exactly one response outcome.",
+      "Abstraction: an answer string is an ordered list of symbols, not free-form text.",
+      "Algorithm design: initialize the maximum below the lowest possible score so all-negative results still rank correctly."
+    ],
+    "algorithm": [
+      "Read and validate a nonempty key containing only A-D, then a valid student record count.",
+      "Validate each record's shape and unique ID, then its response length and permitted symbols.",
+      "For every answer position, count '-' as unanswered, an equal symbol as correct, and any other permitted symbol as incorrect.",
+      "Calculate score = 4 * correct - incorrect and percentage against the maximum.",
+      "Assign the classification using the 75% and 50% boundaries.",
+      "Store valid result tuples and print reasons for invalid records.",
+      "Print valid results and track the highest score, retaining all ties.",
+      "If none are valid, explicitly report that no top score is available."
+    ],
+    "pseudocode": "START\nREAD a valid answer_key of 1..50 symbols A-D\nREAD student_count in 1..30\nseen_ids <- empty list; results <- empty list\nFOR EACH attempted student record\n    READ ID and responses; normalize letter case\n    VALIDATE record, new ID, exact length, and symbols A-D or '-'\n    RESERVE syntactically valid IDs in correctly shaped records\n    IF invalid: PRINT reason and increment rejected\n    ELSE\n        correct <- 0; incorrect <- 0; unanswered <- 0\n        FOR position FROM 0 TO key length - 1\n            IF responses[position] = '-': increment unanswered\n            ELSE IF responses[position] = key[position]: increment correct\n            ELSE: increment incorrect\n        score <- 4 * correct - incorrect\n        percentage <- score * 100 / (4 * key length)\n        IF percentage >= 75: classification <- DISTINCTION\n        ELSE IF percentage >= 50: classification <- PASS\n        ELSE: classification <- NEEDS PRACTICE\n        APPEND result tuple\nhighest <- -(key length) - 1\nFOR EACH result: PRINT result and UPDATE highest score and ties\nPRINT evaluated and rejected counts\nIF results is empty: PRINT no valid top score\nELSE: PRINT highest score and all tied IDs\nSTOP",
+    "conclusion": "The scoring rules account for every response exactly once, including blanks and negative totals. Tests demonstrate correct threshold classifications, lowercase normalization, all-negative ranking, and a safe result when every record is invalid.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["setup", 1, "input", "Validate answer key and record count\\nInitialize seen IDs and results"],
+        ["read", 2, "input", "Read ID | responses\\nNormalize case and reserve valid new ID"],
+        ["valid", 3, "decision", "Valid new ID, exact length,\\nand allowed answer symbols?"],
+        ["reject", 3, "side", "Print rejection reason\\nIncrement rejected count"],
+        ["count", 4, "process", "Compare every answer position\\nCount correct, incorrect and blank"],
+        ["score", 5, "process", "score = 4 * correct - incorrect\\nCompute percentage\\nClassify at 75% and 50%"],
+        ["store", 6, "process", "Append the valid result tuple"],
+        ["more", 7, "decision", "More student attempts?"],
+        ["summary", 8, "input", "Print results and counts\\nFind all highest-score ties\\nHandle an empty result list"],
+        ["end", 9, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "setup"], ["setup", "read"], ["read", "valid"],
+        ["valid", "count", "Yes"], ["valid", "reject", "No", "side"],
+        ["reject", "more", "", "merge"], ["count", "score"], ["score", "store"],
+        ["store", "more"], ["more", "read", "Yes", "loop"],
+        ["more", "summary", "No"], ["summary", "end"]
+      ]
+    }
+  },
+  {
+    "folder": "42_marks_matrix",
+    "number": "42",
+    "title": "Student Marks Matrix Analysis",
+    "short": "Marks matrix",
+    "focus": "Nested lists · row/column statistics",
+    "statement": "Analyze a matrix of student marks across subjects. Calculate student totals and averages, determine classifications using subject-wise passing requirements, calculate subject totals, averages and extrema, identify tied top performers, and flag subjects with low average performance.",
+    "objectives": [
+      "Represent marks as a validated rectangular nested list.",
+      "Traverse the matrix by rows for student statistics and by columns for subject statistics.",
+      "Keep subject-wise pass criteria separate from average-based classifications.",
+      "Report all top-score ties and subjects below a specified average."
+    ],
+    "assumptions": [
+      "Accept 1-20 students and 1-10 subjects. Marks are whole numbers from 0 to 100, inclusive.",
+      "Subject codes and student IDs contain 1-12 ASCII letters or digits, normalize to uppercase, and must be unique within their respective lists.",
+      "Invalid subject lists and student rows are retried. The matrix is not analyzed until every requested row is valid and complete.",
+      "A mark of at least 40 is required in every subject. Any lower mark makes the student FAIL regardless of average.",
+      "Among students passing every subject: average >= 75 gives DISTINCTION; average >= 60 gives FIRST CLASS; all remaining passing averages give PASS.",
+      "A subject is flagged when its class average is strictly below 50. Exactly 50 is not flagged.",
+      "Overall top performers are determined by total marks across all valid students, independent of pass classification. Subject toppers use that subject's mark. Every tie is retained in input order."
+    ],
+    "input": "Enter student count, subject count, a pipe-separated subject-code list, then ID|mark1|...|markN for each student.",
+    "output": "Student totals, averages, failed subjects and classifications; subject totals, averages, lowest/highest marks and toppers; overall top ties, overall average, and low-average subject labels.",
+    "thinking": [
+      "Decomposition: validate matrix dimensions, calculate rows, calculate columns, and summarize.",
+      "Pattern recognition: the same aggregation pattern applies to each row and each column.",
+      "Abstraction: keep student identifiers and subject labels separate from the numeric matrix.",
+      "Algorithm design: use nested index loops so each mark is attributed to its correct student and subject."
+    ],
+    "algorithm": [
+      "Read valid student and subject counts.",
+      "Read a complete unique subject-code list; retry malformed lists.",
+      "Read student rows, validating ID uniqueness, exact mark count, and the 0-100 range.",
+      "Append each accepted ID and its marks list to parallel identifier and matrix lists.",
+      "For each row, sum marks, identify failed subjects, calculate the average, and apply classification rules.",
+      "Track the highest total and all tied student IDs while accumulating the grand total.",
+      "For each column, calculate total, average, minimum, maximum, and all subject toppers.",
+      "Flag averages below 50 and print the overall average, overall top ties, and weak subjects."
+    ],
+    "pseudocode": "START\nREAD student_count in 1..20 and subject_count in 1..10\nREAD exactly subject_count unique valid subject codes; RETRY errors\nstudent_ids <- empty list; marks_matrix <- empty nested list\nWHILE accepted students < student_count\n    READ ID and subject_count marks\n    CHECK new valid ID, correct row length, and integer marks 0..100\n    IF invalid: PRINT error; RETRY\n    ELSE: APPEND ID and the marks row\nFOR EACH student row\n    total <- 0; failed_subjects <- empty list\n    FOR EACH subject column\n        ADD mark to total\n        IF mark < 40: APPEND subject label to failed_subjects\n    average <- total / subject_count\n    IF failed_subjects is not empty: classification <- FAIL\n    ELSE IF average >= 75: classification <- DISTINCTION\n    ELSE IF average >= 60: classification <- FIRST CLASS\n    ELSE: classification <- PASS\n    PRINT row statistics; UPDATE highest total and ties\n    ADD total to grand_total\nFOR EACH subject column\n    SCAN all rows for total, minimum, maximum, and all maximum ties\n    average <- total / student_count\n    IF average < 50: APPEND subject to weak_subjects\n    PRINT column statistics\nPRINT overall top ties\nPRINT grand_total / (student_count * subject_count)\nPRINT weak_subjects or none\nSTOP",
+    "conclusion": "The validated matrix supports both student and subject analysis without external libraries. Tests cover one-cell matrices, zero and full marks, exact classification thresholds, a failed subject despite a high average, and all forms of tied top scores.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["setup", 1, "input", "Read and validate matrix dimensions"],
+        ["subjects", 2, "input", "Read unique valid subject codes\\nRetry until the list has correct length"],
+        ["read", 3, "input", "Read student ID and all marks"],
+        ["valid", 4, "decision", "New valid ID, complete row,\\nand integer marks 0 to 100?"],
+        ["retry", 4, "side", "Print error\\nRetry this student row"],
+        ["store", 5, "process", "Append ID and marks row\\nto parallel lists"],
+        ["more", 6, "decision", "More students to read?"],
+        ["rows", 7, "process", "Scan each row: total and average\\nCheck every subject against 40\\nClassify; retain all top-total ties"],
+        ["columns", 8, "process", "Scan each column: total, average,\\nminimum, maximum and all toppers\\nFlag subject average below 50"],
+        ["summary", 9, "input", "Print row and column reports\\nPrint overall average and top ties"],
+        ["end", 10, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "setup"], ["setup", "subjects"], ["subjects", "read"],
+        ["read", "valid"], ["valid", "store", "Yes"],
+        ["valid", "retry", "No", "side"], ["retry", "read", "", "retry"],
+        ["store", "more"], ["more", "read", "Yes", "loop"], ["more", "rows", "No"],
+        ["rows", "columns"], ["columns", "summary"], ["summary", "end"]
+      ]
+    }
+  },
+  {
+    "folder": "49_product_catalogue",
+    "number": "49",
+    "title": "Tuple-Based Product Catalogue Audit",
+    "short": "Product catalogue",
+    "focus": "Tuple unpacking · money · audit",
+    "statement": "Store product identifiers, unit prices, stock, and reorder levels as tuples. Audit malformed and duplicate records, calculate product and total inventory values, and identify the items and quantities requiring replenishment.",
+    "objectives": [
+      "Validate structured product identifiers and decimal-price strings.",
+      "Convert prices into integer paise using only string and integer operations.",
+      "Store immutable product records in tuples and unpack them for analysis.",
+      "Exclude invalid records from inventory valuation and replenishment totals."
+    ],
+    "assumptions": [
+      "Accept 1-30 attempted records. Product IDs normalize to uppercase and must be P followed by exactly three ASCII digits.",
+      "The first correctly shaped row with a syntactically valid new ID reserves that ID, even if a later price or stock check fails. Repeated IDs are rejected.",
+      "Prices are positive rupee amounts with a required integer part and optionally one or two decimal places: 12, 12.5, and 12.50 are valid; .50, 1., negatives, and excess precision are invalid.",
+      "Convert prices to integer paise. Inventory arithmetic stays in paise; rupee conversion is only for display.",
+      "Stock and reorder level are nonnegative whole units. A zero reorder level is permitted.",
+      "Replenishment is reorder_level - stock when stock is lower, otherwise zero. Stock equal to the reorder level does not trigger replenishment.",
+      "Invalid records count as attempts but contribute to neither inventory value nor replenishment. The report shows the first validation error for each rejected row."
+    ],
+    "input": "Enter the record count, then Pddd|price_in_Rs|stock|reorder_level. Example: P002|3.75|2|8.",
+    "output": "Rejected-record reasons; each valid product's unit price, stock, inventory value and replenishment; total value; total units needed; and item IDs below their reorder levels.",
+    "thinking": [
+      "Decomposition: validate identity, parse the price, validate quantities, and value inventory.",
+      "Pattern recognition: every valid tuple supports the same stock-times-price calculation.",
+      "Abstraction: use integer paise so decimal-input formatting does not control arithmetic accuracy.",
+      "Algorithm design: reject invalid records before appending typed tuples to the catalogue."
+    ],
+    "algorithm": [
+      "Read a valid record count and initialize the catalogue, seen IDs, and rejection count.",
+      "Validate four fields and the Pddd identifier; reject repeated IDs and reserve each new valid ID.",
+      "Split the price around the decimal point, require a digit-only integer part and at most two fractional digits, and pad a single fractional digit with zero.",
+      "Convert whole rupees and fractional paise to one positive integer price.",
+      "Validate stock and reorder level as nonnegative integers, then append the typed product tuple.",
+      "For each valid tuple, calculate value = unit_price_paise * stock.",
+      "Calculate the replenishment gap, retain below-level product IDs, and accumulate value and unit totals.",
+      "Print the catalogue audit, rejection count, total value, and replenishment summary."
+    ],
+    "pseudocode": "START\nREAD record_count in 1..30\ncatalogue <- empty list; seen_ids <- empty list\nFOR EACH attempted record\n    READ ID, price_text, stock_text, reorder_text\n    CHECK four fields, Pddd ID format, and uniqueness\n    RESERVE every new syntactically valid ID\n    SPLIT price_text on decimal point\n    REQUIRE one or two parts and an ASCII integer part\n    IF a fraction is present: REQUIRE one or two ASCII digits\n    PAD one fractional digit to two; absent fraction becomes 00\n    price_paise <- integer_part * 100 + fractional_paise\n    CHECK price_paise > 0 and nonnegative whole stock/reorder values\n    IF valid: APPEND (ID, price_paise, stock, reorder_level)\n    ELSE: PRINT reason; increment rejected\ninventory_value <- 0; replenishment_units <- 0\nFOR EACH (ID, price_paise, stock, reorder_level) IN catalogue\n    value <- price_paise * stock\n    replenish <- 0\n    IF stock < reorder_level\n        replenish <- reorder_level - stock\n        RECORD ID for replenishment\n    ACCUMULATE value and replenish\n    PRINT product values formatted in rupees\nPRINT valid/rejected counts, total value, units needed, and item IDs\nSTOP",
+    "conclusion": "The catalogue audit uses tuple records and integer money calculations to produce a repeatable inventory report. Tests cover one-paise prices, one-digit fractions, exact reorder boundaries, invalid decimal formats, and duplicate IDs following rejected records.",
+    "flow": {
+      "nodes": [
+        ["start", 0, "start", "START"],
+        ["setup", 1, "input", "Read valid catalogue record count\\nInitialize catalogue and seen IDs"],
+        ["read", 2, "input", "Read ID | price | stock | reorder\\nReserve a new valid-shaped ID"],
+        ["valid", 3, "decision", "New valid ID, positive price,\\nand whole nonnegative quantities?"],
+        ["reject", 3, "side", "Print first rejection reason\\nIncrement rejected count"],
+        ["store", 4, "process", "Parse price into integer paise\\nAppend typed product tuple"],
+        ["more", 5, "decision", "More catalogue attempts?"],
+        ["audit", 6, "process", "Unpack each accepted tuple\\nvalue = price_paise * stock"],
+        ["replenish", 7, "process", "If stock < reorder level:\\nrecord the gap and item ID\\nAccumulate value and unit totals"],
+        ["summary", 8, "input", "Print product audit and totals\\nFormat paise as rupees"],
+        ["end", 9, "start", "STOP"]
+      ],
+      "edges": [
+        ["start", "setup"], ["setup", "read"], ["read", "valid"],
+        ["valid", "store", "Yes"], ["valid", "reject", "No", "side"],
+        ["reject", "more", "", "merge"], ["store", "more"],
+        ["more", "read", "Yes", "loop"], ["more", "audit", "No"],
+        ["audit", "replenish"], ["replenish", "summary"], ["summary", "end"]
+      ]
+    }
+  }
+]

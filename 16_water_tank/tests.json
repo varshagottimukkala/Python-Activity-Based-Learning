@@ -1,0 +1,50 @@
+[
+  {
+    "id": "01_normal",
+    "kind": "Normal",
+    "purpose": "Track levels, overflow, shortages, and the first threshold crossing.",
+    "input": "100\n30\n80\n3\n60|40\n100|120\n20|10\n",
+    "expected": "End levels 50, 0, 10. Spill 50, shortage 20; threshold first reached in interval 1.",
+    "contains": ["1 | 30 | 60 | 40 | 40 | 0 | 0 | 50", "2 | 50 | 100 | 120 | 100 | 50 | 20 | 0", "3 | 0 | 20 | 10 | 10 | 0 | 0 | 10", "Final level: 10 litres", "Inflow: 180 | Served: 150 | Spill: 50 | Shortage: 20", "Threshold first reached: interval 1, after inflow", "Water balance: 30 + 180 = 10 + 150 + 50"]
+  },
+  {
+    "id": "02_initial_threshold",
+    "kind": "Boundary",
+    "purpose": "Recognize a threshold met at the initial level.",
+    "input": "100\n80\n80\n1\n0|30\n",
+    "expected": "Threshold reached initially even though the end level is 50.",
+    "contains": ["Final level: 50 litres", "Threshold first reached: initially (interval 0)", "Water balance: 80 + 0 = 50 + 30 + 0"]
+  },
+  {
+    "id": "03_threshold_never_reached",
+    "kind": "Boundary",
+    "purpose": "Do not confuse cumulative inflow with the current tank level.",
+    "input": "100\n0\n100\n2\n25|25\n99|99\n",
+    "expected": "124 litres pass through the tank, but its level never reaches 100.",
+    "contains": ["Inflow: 124 | Served: 124 | Spill: 0 | Shortage: 0", "Threshold first reached: never", "Final level: 0 litres"]
+  },
+  {
+    "id": "04_overflow_before_demand",
+    "kind": "Boundary",
+    "purpose": "Apply spill before demand, so overflow and shortage can occur in the same interval.",
+    "input": "10\n9\n10\n1\n10|20\n",
+    "expected": "Spill 9, served 10, shortage 10, final level 0. Threshold reached after inflow.",
+    "contains": ["1 | 9 | 10 | 20 | 10 | 9 | 10 | 0", "Threshold first reached: interval 1, after inflow", "Water balance: 9 + 10 = 0 + 10 + 9"]
+  },
+  {
+    "id": "05_zero_flows",
+    "kind": "Boundary",
+    "purpose": "Allow a zero threshold, zero initial water, and zero flow.",
+    "input": "10\n0\n0\n1\n0|0\n",
+    "expected": "No movement; threshold 0 is reached initially.",
+    "contains": ["1 | 0 | 0 | 0 | 0 | 0 | 0 | 0", "Threshold first reached: initially (interval 0)", "Water balance: 0 + 0 = 0 + 0 + 0"]
+  },
+  {
+    "id": "06_invalid_inputs",
+    "kind": "Validation",
+    "purpose": "Retry bad capacity, levels, threshold, count, and flow records.",
+    "input": "0\nabc\n10\n11\n-1\n5\n11\n10\n0\n1\n-1|0\nbad\n2|0\n",
+    "expected": "Only the valid interval is simulated, leaving 7 litres; threshold never reached.",
+    "contains": ["ERROR: capacity must be a positive whole number.", "ERROR: initial level must be within tank capacity.", "ERROR: threshold must be within tank capacity.", "ERROR: enter an integer from 1 to 30.", "ERROR: enter two nonnegative whole numbers: inflow|demand.", "Final level: 7 litres", "Water balance: 5 + 2 = 7 + 0 + 0"]
+  }
+]

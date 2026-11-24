@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="642" viewBox="0 0 1000 642" role="img">
+<title>Case 16: actual executed sample output</title>
+<rect x="0" y="0" width="1000" height="642" rx="0" fill="#132b23" stroke="none" stroke-width="2"/>
+<rect x="0" y="0" width="1000" height="60" rx="0" fill="#1d3b30" stroke="none" stroke-width="2"/>
+<text x="30" y="38" fill="#dbe8db" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" text-anchor="start">CASE 16  /  PYTHON TERMINAL</text>
+<text x="971" y="38" fill="#a8d0ab" font-family="DejaVu Sans, sans-serif" font-size="13" font-weight="700" text-anchor="end">EXECUTED SAMPLE</text>
+<text x="30" y="91" fill="#f2cf88" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">$ python3 -B program.py</text>
+<text x="30" y="116" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">MULTI-DAY WATER TANK SIMULATION</text>
+<text x="30" y="141" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Capacity in litres (positive integer): 100</text>
+<text x="30" y="166" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Initial level (0-100): 30</text>
+<text x="30" y="191" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Threshold (0-100): 80</text>
+<text x="30" y="216" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Number of intervals (1-30): 3</text>
+<text x="30" y="241" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Each interval fills first, spills excess, then supplies demand.</text>
+<text x="30" y="266" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Format: inflow|demand</text>
+<text x="30" y="291" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Interval 1: 60|40</text>
+<text x="30" y="316" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Interval 2: 100|120</text>
+<text x="30" y="341" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Interval 3: 20|10</text>
+<text x="30" y="366" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start"></text>
+<text x="30" y="391" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">INTERVAL AUDIT (litres)</text>
+<text x="30" y="416" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Interval | Start | Inflow | Demand | Served | Spill | Shortage | End</text>
+<text x="30" y="441" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">1 | 30 | 60 | 40 | 40 | 0 | 0 | 50</text>
+<text x="30" y="466" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">2 | 50 | 100 | 120 | 100 | 50 | 20 | 0</text>
+<text x="30" y="491" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">3 | 0 | 20 | 10 | 10 | 0 | 0 | 10</text>
+<text x="30" y="516" fill="#b9dfb3" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Final level: 10 litres</text>
+<text x="30" y="541" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Inflow: 180 | Served: 150 | Spill: 50 | Shortage: 20</text>
+<text x="30" y="566" fill="#dce9dc" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Threshold first reached: interval 1, after inflow</text>
+<text x="30" y="591" fill="#b9dfb3" font-family="DejaVu Sans Mono, sans-serif" font-size="18" font-weight="400" text-anchor="start">Water balance: 30 + 180 = 10 + 150 + 50</text>
+<text x="30" y="625" fill="#9bb4a0" font-family="DejaVu Sans, sans-serif" font-size="12" font-weight="400" text-anchor="start">Source: output.txt  |  Input: sample_input.txt  |  Fictional classroom data</text>
+</svg>

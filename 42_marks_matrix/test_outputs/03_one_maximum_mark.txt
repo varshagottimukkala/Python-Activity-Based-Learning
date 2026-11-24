@@ -1,0 +1,13 @@
+STUDENT MARKS MATRIX ANALYSIS
+Number of students (1-20): Number of subjects (1-10): Enter 1 unique subject codes separated by |: Format: ID|mark1|mark2|...; marks must be integers from 0 to 100.
+Student 1: 
+STUDENT STATISTICS
+ID | Total | Average | Failed subjects | Classification
+S1 | 100 | 100.00 | none | DISTINCTION
+
+SUBJECT STATISTICS
+Subject | Total | Average | Lowest | Highest | Top students
+PY | 100 | 100.00 | 100 | 100 | S1
+Top overall total: 100/100 (S1)
+Overall average: 100.00
+Subjects averaging below 50: none

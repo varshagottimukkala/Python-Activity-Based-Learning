@@ -1,0 +1,369 @@
+{
+  "python_version": "3.11.2",
+  "studies": 10,
+  "passed": 60,
+  "total": 60,
+  "syllabus_issues": [],
+  "results": [
+    {
+      "study": "02_electricity_billing",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "02_electricity_billing",
+      "test": "02_slab_boundaries",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "02_electricity_billing",
+      "test": "03_exact_alert_boundary",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "02_electricity_billing",
+      "test": "04_decrease",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "02_electricity_billing",
+      "test": "05_invalid_inputs",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "02_electricity_billing",
+      "test": "06_rebate_cutoff",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "13_atm_transactions",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "13_atm_transactions",
+      "test": "02_withdrawal_limits",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "13_atm_transactions",
+      "test": "03_minimum_balance",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "13_atm_transactions",
+      "test": "04_invalid_values",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "13_atm_transactions",
+      "test": "05_ids_and_format",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "13_atm_transactions",
+      "test": "06_deposit_does_not_reset_limit",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "14_warehouse_reconciliation",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "14_warehouse_reconciliation",
+      "test": "02_zero_and_full_dispatch",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "14_warehouse_reconciliation",
+      "test": "03_observed_stock_basis",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "14_warehouse_reconciliation",
+      "test": "04_duplicates_and_impossible_movement",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "14_warehouse_reconciliation",
+      "test": "05_no_valid_records",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "14_warehouse_reconciliation",
+      "test": "06_count_retry",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "16_water_tank",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "16_water_tank",
+      "test": "02_initial_threshold",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "16_water_tank",
+      "test": "03_threshold_never_reached",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "16_water_tank",
+      "test": "04_overflow_before_demand",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "16_water_tank",
+      "test": "05_zero_flows",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "16_water_tank",
+      "test": "06_invalid_inputs",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "23_timetable_conflicts",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "23_timetable_conflicts",
+      "test": "02_adjacent_sessions",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "23_timetable_conflicts",
+      "test": "03_different_rooms",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "23_timetable_conflicts",
+      "test": "04_closure_edges",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "23_timetable_conflicts",
+      "test": "05_invalid_sessions",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "23_timetable_conflicts",
+      "test": "06_duplicate_session",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "27_numeric_diamond",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "27_numeric_diamond",
+      "test": "02_minimum_size",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "27_numeric_diamond",
+      "test": "03_size_two",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "27_numeric_diamond",
+      "test": "04_maximum_size",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "27_numeric_diamond",
+      "test": "05_invalid_sizes",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "27_numeric_diamond",
+      "test": "06_symmetry",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "29_password_validation",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "29_password_validation",
+      "test": "02_minimum_length",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "29_password_validation",
+      "test": "03_repetition_limit",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "29_password_validation",
+      "test": "04_case_insensitive_substrings",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "29_password_validation",
+      "test": "05_invalid_format_and_characters",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "29_password_validation",
+      "test": "06_maximum_length",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "31_answer_evaluation",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "31_answer_evaluation",
+      "test": "02_ties_and_normalization",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "31_answer_evaluation",
+      "test": "03_all_incorrect",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "31_answer_evaluation",
+      "test": "04_no_valid_students",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "31_answer_evaluation",
+      "test": "05_invalid_setup",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "31_answer_evaluation",
+      "test": "06_classification_cutoffs",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "42_marks_matrix",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "42_marks_matrix",
+      "test": "02_one_zero_mark",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "42_marks_matrix",
+      "test": "03_one_maximum_mark",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "42_marks_matrix",
+      "test": "04_classification_cutoffs",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "42_marks_matrix",
+      "test": "05_input_retries",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "42_marks_matrix",
+      "test": "06_subject_and_total_ties",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "49_product_catalogue",
+      "test": "01_normal",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "49_product_catalogue",
+      "test": "02_exact_decimal_arithmetic",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "49_product_catalogue",
+      "test": "03_invalid_prices",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "49_product_catalogue",
+      "test": "04_ids_and_quantities",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "49_product_catalogue",
+      "test": "05_reorder_boundary",
+      "status": "PASS",
+      "failures": []
+    },
+    {
+      "study": "49_product_catalogue",
+      "test": "06_malformed_and_count_retry",
+      "status": "PASS",
+      "failures": []
+    }
+  ]
+}
