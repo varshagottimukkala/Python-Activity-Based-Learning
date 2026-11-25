@@ -22,12 +22,16 @@ for record_number in range(1, record_count + 1):
         price_text = price_text.strip()
         stock_text = stock_text.strip()
         reorder_text = reorder_text.strip()
-        if len(product_id) != 4 or product_id[0] != "P" or not product_id[1:].isascii() or not product_id[1:].isdigit():
+        if (
+            len(product_id) != 4
+            or product_id[0] != "P"
+            or not product_id[1:].isascii()
+            or not product_id[1:].isdigit()
+        ):
             reason = "ID must be P followed by three ASCII digits"
         elif product_id in seen_ids:
             reason = "duplicate product ID"
         else:
-            seen_ids.append(product_id)
             price_parts = price_text.split(".")
             price_valid = len(price_parts) in (1, 2)
             if price_valid:
@@ -36,7 +40,12 @@ for record_number in range(1, record_count + 1):
                 price_valid = whole.isascii() and whole.isdigit()
                 if len(price_parts) == 2:
                     fraction = price_parts[1]
-                    price_valid = price_valid and 1 <= len(fraction) <= 2 and fraction.isascii() and fraction.isdigit()
+                    price_valid = (
+                        price_valid
+                        and 1 <= len(fraction) <= 2
+                        and fraction.isascii()
+                        and fraction.isdigit()
+                    )
                     fraction = (fraction + "00")[:2]
             if not price_valid:
                 reason = "invalid price format"
@@ -44,9 +53,15 @@ for record_number in range(1, record_count + 1):
                 price_paise = int(whole) * 100 + int(fraction)
                 if price_paise == 0:
                     reason = "price must be positive"
-                elif not stock_text.isascii() or not stock_text.isdigit() or not reorder_text.isascii() or not reorder_text.isdigit():
+                elif not (
+                    stock_text.isascii()
+                    and stock_text.isdigit()
+                    and reorder_text.isascii()
+                    and reorder_text.isdigit()
+                ):
                     reason = "stock and reorder level must be nonnegative whole numbers"
                 else:
+                    seen_ids.append(product_id)
                     catalogue.append((product_id, price_paise, int(stock_text), int(reorder_text)))
     if reason != "":
         rejected += 1
@@ -65,7 +80,10 @@ for product_id, price_paise, stock, reorder_level in catalogue:
         replenish = reorder_level - stock
         reorder_items.append(product_id)
     replenishment_units += replenish
-    print(f"{product_id} | {price_paise / 100:.2f} | {stock} | {value / 100:.2f} | {reorder_level} | {replenish}")
+    print(
+        f"{product_id} | {price_paise / 100:.2f} | {stock} | "
+        f"{value / 100:.2f} | {reorder_level} | {replenish}"
+    )
 
 print(f"Valid records: {len(catalogue)} | Rejected: {rejected}")
 print(f"Inventory value: Rs {inventory_value / 100:.2f}")

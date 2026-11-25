@@ -20,7 +20,7 @@ Compare student answer strings with an answer key. Calculate correct, incorrect 
 
 - The key contains 1–50 letters from A to D. Letter case is normalized to uppercase.
 - Accept 1–30 student-record attempts. IDs contain 1–12 ASCII letters or digits and normalize to uppercase.
-- A correctly formatted record reserves a valid new ID even if its response string is later rejected. Duplicate IDs are not allowed.
+- An ID is used up only when the whole record is accepted. If a record is rejected, the same ID may be used again by a later valid record. Duplicate IDs among accepted records are not allowed.
 - The response length must match the key. Allowed symbols are A–D and `-` for unanswered. Outer spaces are removed; spaces within a response are invalid.
 - Correct answers earn 4 marks, incorrect answers lose 1 mark, and unanswered questions earn 0.
 - Scores may be negative. Percentage = score × 100 / maximum score.
@@ -49,7 +49,7 @@ START
 Read valid answer key and student count
 For each student record:
     Read ID and responses
-    Validate ID, duplicate status, response length and symbols
+    Validate ID, duplicate status (accepted records only), response length and symbols
     If invalid:
         Report rejection
     Else:

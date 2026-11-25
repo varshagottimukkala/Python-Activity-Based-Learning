@@ -23,7 +23,7 @@ Process deposits and withdrawals for a simulated bank account. Check transaction
 - Withdrawals must be multiples of Rs 100, with a maximum of Rs 10000 per transaction and Rs 20000 per day.
 - A withdrawal must leave at least Rs 500. Depositing money does not reset the daily withdrawal limit.
 - IDs contain 1–12 ASCII letters or digits and are converted to uppercase.
-- A correctly formatted record reserves a valid new ID even if its type or amount is later rejected. Repeated IDs are rejected.
+- An ID is used up only when the whole record is accepted. If a record is rejected, the same ID may be used again by a later valid record. Repeated IDs among accepted records are rejected.
 - Invalid transactions count as attempts and do not change the balance. The first failed rule is reported.
 
 ## Algorithm
@@ -50,8 +50,7 @@ Set deposit_total and withdrawal_total to 0
 Create empty seen-ID and result lists
 For each transaction attempt:
     Read ID, type and amount
-    Check format and ID; reject duplicates
-    Reserve a valid new ID
+    Check format and ID; reject duplicates among accepted records
     Check type and positive amount
     If withdrawal:
         Check multiple of 100

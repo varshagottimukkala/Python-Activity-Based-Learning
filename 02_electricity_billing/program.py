@@ -2,7 +2,11 @@ print("PROGRESSIVE ELECTRICITY BILLING")
 print("Enter months in chronological order: label|units|on_time(Y/N)")
 
 month_count_text = input("Number of months (1-12): ").strip()
-while not month_count_text.isascii() or not month_count_text.isdigit() or not 1 <= int(month_count_text) <= 12:
+while not (
+    month_count_text.isascii()
+    and month_count_text.isdigit()
+    and 1 <= int(month_count_text) <= 12
+):
     print("ERROR: enter an integer from 1 to 12.")
     month_count_text = input("Number of months (1-12): ").strip()
 month_count = int(month_count_text)
@@ -54,7 +58,10 @@ for label, units, on_time in months:
         rebate = (energy * 5 + 50) // 100
     bill = energy + fixed + surcharge - rebate
     grand_total += bill
-    print(f"{label} | {units} | {energy / 100:.2f} | {fixed / 100:.2f} | {surcharge / 100:.2f} | {rebate / 100:.2f} | {bill / 100:.2f}")
+    print(
+        f"{label} | {units} | {energy / 100:.2f} | {fixed / 100:.2f} | "
+        f"{surcharge / 100:.2f} | {rebate / 100:.2f} | {bill / 100:.2f}"
+    )
     if previous_bill > 0:
         change = (bill - previous_bill) * 100 / previous_bill
         print(f"  Change from previous month: {change:+.2f}%")

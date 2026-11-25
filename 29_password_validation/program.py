@@ -62,7 +62,9 @@ for sample_number in range(1, sample_count + 1):
         if not has_special:
             failures.append("Include a special character from !@#$%^&*?_-")
         if invalid_characters:
-            failures.append("Only ASCII letters, digits, and the listed special characters are allowed.")
+            failures.append(
+                "Only ASCII letters, digits, and the listed special characters are allowed."
+            )
         if repeated_run:
             failures.append("Three or more consecutive identical characters are prohibited.")
         lowered_password = password.lower()

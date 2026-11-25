@@ -20,7 +20,7 @@ Compare stock records with physically observed closing stock. Find shortages or 
 
 - Accept 1–20 product-record attempts. All quantities are nonnegative whole units.
 - Product codes contain 1–12 ASCII letters or digits and are converted to uppercase.
-- The first correctly formatted record with a valid product code reserves that code. Repeated codes are rejected even if an earlier record failed a later check.
+- A product code is used up only when the whole record is accepted. If a record is rejected, the same code may be used again by a later valid record. Repeated codes among accepted records are rejected.
 - Expected stock = opening stock + incoming stock − dispatched stock.
 - Dispatch above available stock is invalid. An observed stock difference is reported as a discrepancy.
 - Difference = observed stock − expected stock. A negative value is a shortage; a positive value is a surplus.
@@ -48,10 +48,10 @@ Read valid record count
 Create product and seen-code lists
 For each record:
     Read code, opening, incoming, dispatched, observed and target
-    Validate the fields and reserve a valid new code
+    Reject the code if it is already used by an accepted record
     If quantities are invalid or dispatch exceeds opening + incoming:
         Reject the record
-    Otherwise store the product tuple
+    Otherwise store the product tuple and record the code as used
 For each accepted product:
     expected = opening + incoming - dispatched
     difference = observed - expected

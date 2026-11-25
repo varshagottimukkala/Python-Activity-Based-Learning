@@ -6,14 +6,22 @@ while not capacity_text.isascii() or not capacity_text.isdigit() or int(capacity
 capacity = int(capacity_text)
 
 initial_text = input(f"Initial level (0-{capacity}): ").strip()
-while not initial_text.isascii() or not initial_text.isdigit() or not 0 <= int(initial_text) <= capacity:
+while not (
+    initial_text.isascii()
+    and initial_text.isdigit()
+    and 0 <= int(initial_text) <= capacity
+):
     print("ERROR: initial level must be within tank capacity.")
     initial_text = input(f"Initial level (0-{capacity}): ").strip()
 initial = int(initial_text)
 level = initial
 
 threshold_text = input(f"Threshold (0-{capacity}): ").strip()
-while not threshold_text.isascii() or not threshold_text.isdigit() or not 0 <= int(threshold_text) <= capacity:
+while not (
+    threshold_text.isascii()
+    and threshold_text.isdigit()
+    and 0 <= int(threshold_text) <= capacity
+):
     print("ERROR: threshold must be within tank capacity.")
     threshold_text = input(f"Threshold (0-{capacity}): ").strip()
 threshold = int(threshold_text)
@@ -72,9 +80,15 @@ print("\nINTERVAL AUDIT (litres)")
 print("Interval | Start | Inflow | Demand | Served | Spill | Shortage | End")
 for record_index in range(len(records)):
     starting_level, inflow, demand, served, spill, shortage, ending_level = records[record_index]
-    print(f"{record_index + 1} | {starting_level} | {inflow} | {demand} | {served} | {spill} | {shortage} | {ending_level}")
+    print(
+        f"{record_index + 1} | {starting_level} | {inflow} | {demand} | "
+        f"{served} | {spill} | {shortage} | {ending_level}"
+    )
 print(f"Final level: {level} litres")
-print(f"Inflow: {total_inflow} | Served: {total_served} | Spill: {total_spill} | Shortage: {total_shortage}")
+print(
+    f"Inflow: {total_inflow} | Served: {total_served} | "
+    f"Spill: {total_spill} | Shortage: {total_shortage}"
+)
 if first_threshold_interval == 0:
     print("Threshold first reached: initially (interval 0)")
 elif first_threshold_interval == -1:

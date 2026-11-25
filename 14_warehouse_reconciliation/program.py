@@ -23,7 +23,6 @@ for record_number in range(1, record_count + 1):
         elif code in seen_codes:
             reason = "duplicate product code"
         else:
-            seen_codes.append(code)
             for field in fields[1:]:
                 number_text = field.strip()
                 if not number_text.isascii() or not number_text.isdigit():
@@ -35,6 +34,7 @@ for record_number in range(1, record_count + 1):
                 if dispatched > opening + incoming:
                     reason = "dispatch exceeds available stock"
                 else:
+                    seen_codes.append(code)
                     products.append((code, opening, incoming, dispatched, observed, target))
     if reason != "":
         invalid_records += 1

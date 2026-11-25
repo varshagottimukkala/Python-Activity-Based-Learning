@@ -1,12 +1,20 @@
 print("STUDENT MARKS MATRIX ANALYSIS")
 student_count_text = input("Number of students (1-20): ").strip()
-while not student_count_text.isascii() or not student_count_text.isdigit() or not 1 <= int(student_count_text) <= 20:
+while not (
+    student_count_text.isascii()
+    and student_count_text.isdigit()
+    and 1 <= int(student_count_text) <= 20
+):
     print("ERROR: enter an integer from 1 to 20.")
     student_count_text = input("Number of students (1-20): ").strip()
 student_count = int(student_count_text)
 
 subject_count_text = input("Number of subjects (1-10): ").strip()
-while not subject_count_text.isascii() or not subject_count_text.isdigit() or not 1 <= int(subject_count_text) <= 10:
+while not (
+    subject_count_text.isascii()
+    and subject_count_text.isdigit()
+    and 1 <= int(subject_count_text) <= 10
+):
     print("ERROR: enter an integer from 1 to 10.")
     subject_count_text = input("Number of subjects (1-10): ").strip()
 subject_count = int(subject_count_text)
@@ -18,7 +26,12 @@ while len(subjects) != subject_count:
     valid_subjects = len(fields) == subject_count
     for field in fields:
         subject = field.strip().upper()
-        if not 1 <= len(subject) <= 12 or not subject.isascii() or not subject.isalnum() or subject in subjects:
+        if not (
+            1 <= len(subject) <= 12
+            and subject.isascii()
+            and subject.isalnum()
+            and subject not in subjects
+        ):
             valid_subjects = False
         subjects.append(subject)
     if not valid_subjects:
@@ -34,7 +47,12 @@ while len(student_ids) < student_count:
         print("ERROR: provide one ID and exactly one mark per subject.")
         continue
     student_id = fields[0].strip().upper()
-    if not 1 <= len(student_id) <= 12 or not student_id.isascii() or not student_id.isalnum() or student_id in student_ids:
+    if not (
+        1 <= len(student_id) <= 12
+        and student_id.isascii()
+        and student_id.isalnum()
+        and student_id not in student_ids
+    ):
         print("ERROR: student IDs must be unique ASCII alphanumeric strings of 1-12 characters.")
         continue
     marks = []
@@ -76,7 +94,10 @@ for student_index in range(student_count):
     failed_text = "none"
     if len(failed_subjects) > 0:
         failed_text = ", ".join(failed_subjects)
-    print(f"{student_ids[student_index]} | {total} | {average:.2f} | {failed_text} | {classification}")
+    print(
+        f"{student_ids[student_index]} | {total} | {average:.2f} | "
+        f"{failed_text} | {classification}"
+    )
     grand_total += total
     if total > highest_total:
         highest_total = total
@@ -105,7 +126,10 @@ for subject_index in range(subject_count):
     average = total / student_count
     if average < 50:
         weak_subjects.append(subjects[subject_index])
-    print(f"{subjects[subject_index]} | {total} | {average:.2f} | {lowest} | {highest} | {', '.join(subject_toppers)}")
+    print(
+        f"{subjects[subject_index]} | {total} | {average:.2f} | {lowest} | "
+        f"{highest} | {', '.join(subject_toppers)}"
+    )
 
 print(f"Top overall total: {highest_total}/{subject_count * 100} ({', '.join(top_students)})")
 print(f"Overall average: {grand_total / (student_count * subject_count):.2f}")

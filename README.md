@@ -8,7 +8,7 @@
 
 This repository contains ten case studies for the Python activity-based learning assignment.
 
-## Selected Case Studies
+## Section 1: Selected Case Studies
 
 | Case No. | Case Study |
 |---|---|
@@ -23,14 +23,24 @@ This repository contains ten case studies for the Python activity-based learning
 | 42 | [Student Marks Matrix Analysis](42_marks_matrix/README.md) |
 | 49 | [Tuple-Based Product Catalogue Audit](49_product_catalogue/README.md) |
 
-## Files in Each Folder
+## Section 2: Complete Case Studies PDF
+
+All ten case studies are also available as a single PDF:
+
+**[Python-Activity-Based-Learning-Case-Studies.pdf](Python-Activity-Based-Learning-Case-Studies.pdf)**
+
+The PDF contains all ten case studies one after another, each with the problem statement,
+objectives, assumptions, algorithm, flowchart, pseudocode, Python source code, test cases,
+output screenshot and conclusion.
+
+## Section 3: Files in Each Folder
 
 - `README.md` — problem statement, objectives, assumptions, algorithm, pseudocode, test cases and conclusion.
 - `program.py` — Python source code.
 - `flowchart.png` — flowchart of the program.
 - `output.png` — sample program output.
 
-## How to Run
+## Section 4: How to Run
 
 Install Python 3, open a terminal in this repository and run a program. For example:
 

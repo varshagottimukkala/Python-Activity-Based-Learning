@@ -35,28 +35,31 @@ for attempt in range(1, transaction_count + 1):
         transaction_id = transaction_id.strip().upper()
         transaction_type = transaction_type.strip().upper()
         amount_text = amount_text.strip()
-        if not 1 <= len(transaction_id) <= 12 or not transaction_id.isascii() or not transaction_id.isalnum():
+        if not (
+            1 <= len(transaction_id) <= 12
+            and transaction_id.isascii()
+            and transaction_id.isalnum()
+        ):
             reason = "ID must contain 1-12 ASCII letters or digits"
-        elif transaction_id in seen_ids:
-            reason = "duplicate transaction ID"
+        elif transaction_type not in ("D", "W"):
+            reason = "transaction type must be D or W"
+        elif not amount_text.isascii() or not amount_text.isdigit() or int(amount_text) == 0:
+            reason = "amount must be a positive whole number"
         else:
-            seen_ids.append(transaction_id)
-            if transaction_type not in ("D", "W"):
-                reason = "transaction type must be D or W"
-            elif not amount_text.isascii() or not amount_text.isdigit() or int(amount_text) == 0:
-                reason = "amount must be a positive whole number"
-            else:
-                amount = int(amount_text)
-                if transaction_type == "W":
-                    if amount % 100 != 0:
-                        reason = "withdrawal must be a multiple of Rs 100"
-                    elif amount > 10000:
-                        reason = "per-transaction withdrawal limit is Rs 10000"
-                    elif withdrawn + amount > 20000:
-                        reason = "daily withdrawal limit is Rs 20000"
-                    elif balance - amount < 500:
-                        reason = "withdrawal would breach the Rs 500 minimum balance"
+            amount = int(amount_text)
+            if transaction_type == "W":
+                if amount % 100 != 0:
+                    reason = "withdrawal must be a multiple of Rs 100"
+                elif amount > 10000:
+                    reason = "per-transaction withdrawal limit is Rs 10000"
+                elif withdrawn + amount > 20000:
+                    reason = "daily withdrawal limit is Rs 20000"
+                elif balance - amount < 500:
+                    reason = "withdrawal would breach the Rs 500 minimum balance"
+        if reason == "" and transaction_id in seen_ids:
+            reason = "duplicate transaction ID"
     if reason == "":
+        seen_ids.append(transaction_id)
         if transaction_type == "D":
             balance += amount
             deposited += amount

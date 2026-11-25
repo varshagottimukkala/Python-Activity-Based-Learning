@@ -35,7 +35,12 @@ for record_number in range(1, session_count + 1):
                 if valid_time:
                     hour_text = time_text[:2]
                     minute_text = time_text[3:]
-                    valid_time = hour_text.isascii() and hour_text.isdigit() and minute_text.isascii() and minute_text.isdigit()
+                    valid_time = (
+                        hour_text.isascii()
+                        and hour_text.isdigit()
+                        and minute_text.isascii()
+                        and minute_text.isdigit()
+                    )
                     if valid_time:
                         hour = int(hour_text)
                         minute = int(minute_text)
@@ -63,7 +68,12 @@ student_conflicts = 0
 room_conflicts = 0
 for course, day, start, end, room in sessions:
     for blocked_room, blocked_day, blocked_start, blocked_end in unavailable:
-        if room == blocked_room and day == blocked_day and start < blocked_end and end > blocked_start:
+        if (
+            room == blocked_room
+            and day == blocked_day
+            and start < blocked_end
+            and end > blocked_start
+        ):
             blocked_bookings += 1
             print(f"UNAVAILABLE: {course} in {room} on {day}")
 

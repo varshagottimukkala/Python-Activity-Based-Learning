@@ -19,7 +19,7 @@ Store product details in tuples, identify invalid or repeated records, calculate
 ## Assumptions
 
 - Accept 1–30 product-record attempts. IDs are converted to uppercase and must be `P` followed by three ASCII digits.
-- A correctly formatted record reserves a valid new ID even if a later field is invalid. Duplicate IDs are rejected.
+- An ID is used up only when the whole record is accepted. If a record is rejected, the same ID may be used again by a later valid record. Duplicate IDs among accepted records are rejected.
 - Prices must be positive, with a whole-number part and optionally one or two decimal places. Examples: `12`, `12.5` and `12.50`.
 - Inputs such as `.50`, `1.`, negative prices or more than two decimal places are invalid.
 - Prices are converted to integer paise for calculations and displayed in rupees.
@@ -49,12 +49,11 @@ Read valid product-record count
 Create empty catalogue and seen-ID lists
 For each product record:
     Read ID, price, stock and reorder level
-    Validate the record and reserve a valid new ID
-    Reject duplicate IDs
+    Reject duplicate IDs (only accepted records count)
     Check price format and convert price to paise
     Check positive price and nonnegative whole quantities
     If valid:
-        Store (ID, price_paise, stock, reorder_level)
+        Store (ID, price_paise, stock, reorder_level) and record the ID as used
     Else:
         Display the first rejection reason
 For each accepted tuple:

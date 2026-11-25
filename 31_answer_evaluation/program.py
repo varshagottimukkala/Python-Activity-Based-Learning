@@ -33,7 +33,6 @@ for record_number in range(1, student_count + 1):
         elif student_id in seen_ids:
             reason = "duplicate student ID"
         else:
-            seen_ids.append(student_id)
             if len(responses) != len(answer_key):
                 reason = "response length must match the answer key"
             else:
@@ -41,6 +40,7 @@ for record_number in range(1, student_count + 1):
                     if answer not in "ABCD-":
                         reason = "responses must contain only A-D or -"
             if reason == "":
+                seen_ids.append(student_id)
                 correct = 0
                 incorrect = 0
                 unanswered = 0
@@ -59,7 +59,9 @@ for record_number in range(1, student_count + 1):
                     classification = "PASS"
                 else:
                     classification = "NEEDS PRACTICE"
-                results.append((student_id, correct, incorrect, unanswered, score, percentage, classification))
+                results.append(
+                    (student_id, correct, incorrect, unanswered, score, percentage, classification)
+                )
     if reason != "":
         rejected += 1
         print(f"REJECTED {student_id}: {reason}")
@@ -69,7 +71,10 @@ print("ID | Correct | Incorrect | Blank | Score | Percent | Result")
 highest_score = -len(answer_key) - 1
 top_students = []
 for student_id, correct, incorrect, unanswered, score, percentage, classification in results:
-    print(f"{student_id} | {correct} | {incorrect} | {unanswered} | {score} | {percentage:.2f}% | {classification}")
+    print(
+        f"{student_id} | {correct} | {incorrect} | {unanswered} | "
+        f"{score} | {percentage:.2f}% | {classification}"
+    )
     if score > highest_score:
         highest_score = score
         top_students = [student_id]
